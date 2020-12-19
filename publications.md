@@ -6,7 +6,7 @@ permalink: /publications
 
 
 ## Refereed Journal Publications
-1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596.  [.pdf]
+1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596.  [(preprint)](https://pauldavidrowe.github.io/papers/cpwc.pdf)
 
 2. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Confidentiality**](http://rd.springer.com/article/10.1007%2Fs10817-010-9190-1). *Journal of Automated Reasoning* 46 (3-4) (2011) 389-421. [.pdf] 
 
