@@ -47,6 +47,6 @@ permalink: /publications
 
 ### PhD Thesis for University of Pennsylvania.
 
-Paul D. Rowe. [**Policy Compliance, Confidentiality and Complexity in Collaborative Systems**](https://pauldavidrowe.github.io/papers/rowe-thesis). May 2009.
+Paul D. Rowe. [**Policy Compliance, Confidentiality and Complexity in Collaborative Systems**](https://pauldavidrowe.github.io/papers/rowe-thesis.pdf). May 2009.
 
 Several preprints and un-refereed manuscripts are stored on arXiv.
