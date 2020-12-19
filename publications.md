@@ -15,7 +15,7 @@ permalink: /publications
 
 ### 2020s:
 
-1. Paul D. Rowe, Joshua D. Guttman, John D. Ramsdell. [**Assumption-Based Analysis of Distance-Bounding Protocols with CPSA**](https://link.springer.com/chapter/10.1007/978-3-030-62077-6_11). In *Logic, Language, and Security*, Nigam V. et al. (eds). Lecture Notes in Computer Science, vol. 12300. Springer, Cham. [(preprint)](https://pauldavidrowe.github.io/papers/dist-bnd.pdf)
+1. Paul D. Rowe, Joshua D. Guttman, John D. Ramsdell. [**Assumption-Based Analysis of Distance-Bounding Protocols with CPSA**](https://link.springer.com/chapter/10.1007/978-3-030-62077-6_11). In *Logic, Language, and Security*. Springer, 2020. [(preprint)](https://pauldavidrowe.github.io/papers/dist-bnd.pdf)
 
 ### 2010s:
 
