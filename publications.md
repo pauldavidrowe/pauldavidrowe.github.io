@@ -49,4 +49,4 @@ permalink: /publications
 
 Paul D. Rowe. [**Policy Compliance, Confidentiality and Complexity in Collaborative Systems**](https://pauldavidrowe.github.io/papers/rowe-thesis.pdf). May 2009.
 
-Several preprints and un-refereed manuscripts are stored on arXiv.
+Several preprints and un-refereed manuscripts are stored on [arXiv](https://arxiv.org), and subsets of the above can be found on [Google Scholar](https://scholar.google.com/citations?user=5U0JE-YAAAAJ&hl=en) and [Researchgate](https://www.researchgate.net/profile/Paul_Rowe4).
