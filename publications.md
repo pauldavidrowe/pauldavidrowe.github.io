@@ -6,7 +6,7 @@ permalink: /publications
 
 
 ## Refereed Journal Publications
-1. Sarah C. Helble, Ian D. Kretz, Peter A. Loscocco, John D. Ramsdell, Paul D. Rowe and Perry Alexander. **Flexible Mechanisms for Remote Attestation**. *ACM Transactions on Privacy and Security*. To appear.
+1. Sarah C. Helble, Ian D. Kretz, Peter A. Loscocco, John D. Ramsdell, Paul D. Rowe and Perry Alexander. **Flexible Mechanisms for Remote Attestation**. *ACM Transactions on Privacy and Security*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/flexible-mech.pdf)
 
 1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596. [(preprint)](https://pauldavidrowe.github.io/papers/meas-strength.pdf)
 
