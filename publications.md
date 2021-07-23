@@ -17,7 +17,7 @@ permalink: /publications
 
 ### 2020s:
 
-1. Paul D. Rowe, John D. Ramsdell, Ian D. Kretz. Automated Trust Analysis of Copland Specifications for Layered Attestations. Principles and Practice of Declarative Programming (PPDP'21). To appear. [(preprint)](https://pauldavidrowe.github.io/papers/copland-chase.pdf)
+1. Paul D. Rowe, John D. Ramsdell, Ian D. Kretz. **Automated Trust Analysis of Copland Specifications for Layered Attestations**. *Principles and Practice of Declarative Programming (PPDP'21)*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/copland-chase.pdf)
 
 1. Paul D. Rowe, Joshua D. Guttman, John D. Ramsdell. [**Assumption-Based Analysis of Distance-Bounding Protocols with CPSA**](https://link.springer.com/chapter/10.1007/978-3-030-62077-6_11). In *Logic, Language, and Security*. Springer, 2020. [(preprint)](https://pauldavidrowe.github.io/papers/dist-bnd.pdf)
 
