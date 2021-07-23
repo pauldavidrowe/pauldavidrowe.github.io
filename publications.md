@@ -6,10 +6,8 @@ permalink: /publications
 
 
 ## Refereed Journal Publications
-1. Sarah C. Helble, Ian D. Kretz, Peter A. Loscocco, John D. Ramsdell, Paul D. Rowe and Perry Alexander. **Flexible Mechanisms for Remote Attestation**. *ACM Transactions on Privacy and Security*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/flexible-mech.pdf)
-
-1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596. [(preprint)](https://pauldavidrowe.github.io/papers/meas-strength.pdf)
-
+1. Sarah C. Helble, Ian D. Kretz, Peter A. Loscocco, John D. Ramsdell, Paul D. Rowe and Perry Alexander. **Flexible Mechanisms for Remote Attestation**. *ACM Transactions on Privacy and Security*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/flexible-mech.pdf)  
+1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596. [(preprint)](https://pauldavidrowe.github.io/papers/meas-strength.pdf)  
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Confidentiality**](http://rd.springer.com/article/10.1007%2Fs10817-010-9190-1). *Journal of Automated Reasoning* 46 (3-4) (2011) 389-421. [(preprint)](https://pauldavidrowe.github.io/papers/cpwc.pdf) 
 
 
@@ -17,8 +15,7 @@ permalink: /publications
 
 ### 2020s:
 
-1. Paul D. Rowe, John D. Ramsdell, Ian D. Kretz. **Automated Trust Analysis of Copland Specifications for Layered Attestations**. *Principles and Practice of Declarative Programming (PPDP'21)*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/copland-chase.pdf)
-
+1. Paul D. Rowe, John D. Ramsdell, Ian D. Kretz. **Automated Trust Analysis of Copland Specifications for Layered Attestations**. *Principles and Practice of Declarative Programming (PPDP'21)*. To appear. [(preprint)](https://pauldavidrowe.github.io/papers/copland-chase.pdf)  
 1. Paul D. Rowe, Joshua D. Guttman, John D. Ramsdell. [**Assumption-Based Analysis of Distance-Bounding Protocols with CPSA**](https://link.springer.com/chapter/10.1007/978-3-030-62077-6_11). In *Logic, Language, and Security*. Springer, 2020. [(preprint)](https://pauldavidrowe.github.io/papers/dist-bnd.pdf)
 
 ### 2010s:
