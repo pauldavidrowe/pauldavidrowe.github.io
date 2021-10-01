@@ -21,7 +21,7 @@ permalink: /publications
 
 ### 2010s:
 
-{:start="3"}
+{:start="4"}
 1. Paul D. Rowe, J. Cory Miniter, Michael D. Norman. [**On the Sensitivity of Cyber Assessment Methodologies**](http://ebooks.iospress.nl/volumearticle/53731). In *Resilience and Hybrid Threats*, Igor Linkov, Lada Roslycky, Benjamin D. Trump, eds. IOS Press. November, 2019. [(preprint)](https://pauldavidrowe.github.io/papers/sensitivity.pdf)  
 1. Heimir Thorisson, Fabrizio Baiardi, David G. Angeler, Kuldar Taveter, Ashok Vasheasta, Paul D. Rowe, Wojciech Piotrowicz, Thomas L. Polmateer, James H. Lambert, Igor Linkov. [**Resilience of Critical Infrastructure Systems to Hybrid Threats with Information Disruption**](http://ebooks.iospress.nl/volumearticle/53727). In *Resilience and Hybrid Threats*, Igor Linkov, Lada Roslycky, Benjamin D. Trump, eds. IOS Press. November, 2019. [(preprint)](https://pauldavidrowe.github.io/papers/hybrid-threats.pdf)  
 1. Moses D. Liskov, Joshua D. Guttman, John D. Ramsdell, Paul D. Rowe, F. Javier Thayer. [**Enrich-by-Need Protocol Analysis for Diffie-Hellman**](https://link.springer.com/chapter/10.1007%2F978-3-030-19052-1_10). *Foundations of Security, Protocols, and Equational Reasoning* 2019: 135-155. [(preprint)](https://pauldavidrowe.github.io/papers/ebn-dh.pdf)  
