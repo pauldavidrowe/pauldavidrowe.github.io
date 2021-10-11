@@ -40,7 +40,7 @@ permalink: /publications
 
 ### 2000s:
 
-{:start="18"}
+{:start="19"}
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Policy Compliance in Collaborative Systems**](https://www.computer.org/csdl/proceedings/csf/2009/3712/00/3712a218-abs.html). *IEEE Symposium on Computer Security Foundations*. July 2009. [(preprint)](https://pauldavidrowe.github.io/papers/pccs.pdf)  
 1. John C. Mitchell, Arnab Roy, Paul Rowe and Andre Scedrov. [**Analysis of EAP-GPSK Authentication Protocol**](http://rd.springer.com/chapter/10.1007%2F978-3-540-68914-0_19). *International Conference on Applied Cryptography and Network Security* (ACNS’08). Springer LNCS 5037. June, 2008. [(preprint)](https://pauldavidrowe.github.io/papers/eap-gpsk.pdf)  
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Privacy**](https://www.computer.org/csdl/proceedings/csf/2007/2819/00/28190265-abs.html). *IEEE Symposium on Computer Security Foundations*. July 2007. [(preprint)](https://pauldavidrowe.github.io/papers/cpwp.pdf)
