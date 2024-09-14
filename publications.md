@@ -46,6 +46,11 @@ permalink: /publications
 1. John C. Mitchell, Arnab Roy, Paul Rowe and Andre Scedrov. [**Analysis of EAP-GPSK Authentication Protocol**](http://rd.springer.com/chapter/10.1007%2F978-3-540-68914-0_19). *International Conference on Applied Cryptography and Network Security* (ACNS’08). Springer LNCS 5037. June, 2008. [(preprint)](https://pauldavidrowe.github.io/papers/eap-gpsk.pdf)  
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Privacy**](https://www.computer.org/csdl/proceedings/csf/2007/2819/00/28190265-abs.html). *IEEE Symposium on Computer Security Foundations*. July 2007. [(preprint)](https://pauldavidrowe.github.io/papers/cpwp.pdf)
 
+## Edited Volumes
+
+Daniel Dougherty, José Meseguer, Sebastian Alexander Mödersheim, Paul D. Rowe (Eds.):
+[**Protocols, Strands, and Logic - Essays Dedicated to Joshua Guttman on the Occasion of his 66.66th Birthday**](https://link.springer.com/book/10.1007/978-3-030-91631-2). Lecture Notes in Computer Science 13066, Springer 2021, ISBN 978-3-030-91630-5
+
 ## Un-Refereed Manuscripts
 
 ### PhD Thesis for University of Pennsylvania.
