@@ -1,0 +1,287 @@
+// ============================================================
+// SpellingBee Tracker — Data Layer
+// ============================================================
+// Data shape stored in localStorage under key "spellingbee":
+//
+// {
+//   words: {
+//     "COCA": { missCount: 3, isValid: true },
+//     "GOOGLE": { missCount: 0, isValid: false }
+//   },
+//   associations: [
+//     { from: "GOOGLE", to: "GOOGOL" }
+//   ]
+// }
+//
+// Clusters are NOT stored — computed on the fly by sorting each
+// word's letters and grouping words with identical sorted keys.
+// ============================================================
+
+const STORAGE_KEY = "spellingbee";
+
+// ── Internal helpers ─────────────────────────────────────────
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { words: {}, associations: [] };
+    return JSON.parse(raw);
+  } catch {
+    return { words: {}, associations: [] };
+  }
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// Returns the cluster key for a word: sorted unique letters, uppercased.
+// e.g. "COCA" → "ACOO"... wait, we keep duplicates because
+// "COCA" (C,O,C,A) and "CACAO" (C,A,C,A,O) have different letter multisets.
+// We sort ALL letters (with repeats) so that two words cluster only when
+// they use the exact same multiset of letters.
+// e.g. "COCA" (A,C,C,O) → "ACCO"
+//      "CACAO" (A,A,C,C,O) → "AACCO"
+//      "COCOA" (A,C,C,O,O) → "ACCOO"
+// These three are all different clusters — but in practice for the Bee
+// words tend to share the same UNIQUE letter set rather than exact multiset.
+// We'll use UNIQUE sorted letters so COCA/CACAO/COCOA all cluster together
+// (they each use only the letters A, C, O):
+function clusterKey(word) {
+  return [...new Set(word.toUpperCase().split(""))].sort().join("");
+}
+
+function normalize(word) {
+  return word.trim().toUpperCase();
+}
+
+// ── Word operations ──────────────────────────────────────────
+
+/**
+ * Log a missed word. If it already exists, increments missCount.
+ * If new, adds it with missCount: 1 and isValid: true.
+ */
+function logMissedWord(word) {
+  word = normalize(word);
+  if (!word) return;
+  const data = loadData();
+  if (data.words[word]) {
+    data.words[word].missCount += 1;
+  } else {
+    data.words[word] = { missCount: 1, isValid: true };
+  }
+  saveData(data);
+}
+
+/**
+ * Add an invalid (NYT-rejected) word.
+ * If already in list, marks it invalid but does NOT touch missCount.
+ * If new, adds it with missCount: 0 and isValid: false.
+ */
+function addInvalidWord(word) {
+  word = normalize(word);
+  if (!word) return;
+  const data = loadData();
+  if (data.words[word]) {
+    data.words[word].isValid = false;
+  } else {
+    data.words[word] = { missCount: 0, isValid: false };
+  }
+  saveData(data);
+}
+
+/**
+ * Add a directional association: from → to.
+ * Both words are added to the word list if not already present
+ * (as valid words with missCount 0, since we don't know their status yet).
+ * Duplicate associations are ignored.
+ */
+function addAssociation(fromWord, toWord) {
+  fromWord = normalize(fromWord);
+  toWord = normalize(toWord);
+  if (!fromWord || !toWord || fromWord === toWord) return;
+  const data = loadData();
+
+  // Ensure both words exist in the word list
+  if (!data.words[fromWord]) data.words[fromWord] = { missCount: 0, isValid: true };
+  if (!data.words[toWord])   data.words[toWord]   = { missCount: 0, isValid: true };
+
+  // Avoid duplicates
+  const exists = data.associations.some(a => a.from === fromWord && a.to === toWord);
+  if (!exists) {
+    data.associations.push({ from: fromWord, to: toWord });
+  }
+  saveData(data);
+}
+
+/**
+ * Add a known valid word that hasn't been missed.
+ * If the word already exists, marks it valid but does NOT touch missCount.
+ * If new, adds it with missCount: 0 and isValid: true.
+ */
+function addKnownWord(word) {
+  word = normalize(word);
+  if (!word) return;
+  const data = loadData();
+  if (data.words[word]) {
+    data.words[word].isValid = true;
+  } else {
+    data.words[word] = { missCount: 0, isValid: true };
+  }
+  saveData(data);
+}
+
+/**
+ * Update a word's properties.
+ * Accepts { missCount, isValid } — omit either to leave it unchanged.
+ * Enforces constraint: isValid:false forces missCount to 0.
+ */
+function updateWord(word, { missCount, isValid } = {}) {
+  word = normalize(word);
+  if (!word) return;
+  const data = loadData();
+  if (!data.words[word]) return;
+
+  if (isValid !== undefined) data.words[word].isValid = isValid;
+  if (missCount !== undefined) data.words[word].missCount = Math.max(0, missCount);
+
+  // Enforce constraint
+  if (!data.words[word].isValid) data.words[word].missCount = 0;
+
+  saveData(data);
+}
+
+/**
+ * Remove a word and all associations involving it.
+ */
+function removeWord(word) {
+  word = normalize(word);
+  const data = loadData();
+  delete data.words[word];
+  data.associations = data.associations.filter(a => a.from !== word && a.to !== word);
+  saveData(data);
+}
+
+/**
+ * Remove a specific association.
+ */
+function removeAssociation(fromWord, toWord) {
+  fromWord = normalize(fromWord);
+  toWord = normalize(toWord);
+  const data = loadData();
+  data.associations = data.associations.filter(
+    a => !(a.from === fromWord && a.to === toWord)
+  );
+  saveData(data);
+}
+
+// ── Lookup operations ────────────────────────────────────────
+
+/**
+ * Returns info about a single word, or null if not found.
+ * {
+ *   word, missCount, isValid,
+ *   cluster: { key, members: ["COCA", "CACAO", "COCOA"] },
+ *   associations: ["GOOGOL"]   // words this word points to
+ * }
+ */
+function lookupWord(word) {
+  word = normalize(word);
+  const data = loadData();
+  const entry = data.words[word];
+  if (!entry) return null;
+
+  const key = clusterKey(word);
+  const clusterMembers = Object.keys(data.words).filter(
+    w => clusterKey(w) === key
+  ).sort();
+
+  const associations = data.associations
+    .filter(a => a.from === word)
+    .map(a => a.to);
+
+  return {
+    word,
+    missCount: entry.missCount,
+    isValid: entry.isValid,
+    cluster: { key, members: clusterMembers },
+    associations,
+  };
+}
+
+/**
+ * Returns all words whose autocomplete prefix matches the query.
+ * Results sorted: valid words first, then invalid; within each group alphabetically.
+ * Each result: { word, missCount, isValid }
+ */
+function autocomplete(query) {
+  query = normalize(query);
+  if (!query) return [];
+  const data = loadData();
+  return Object.entries(data.words)
+    .filter(([w]) => w.startsWith(query))
+    .map(([word, entry]) => ({ word, ...entry }))
+    .sort((a, b) => {
+      if (a.isValid !== b.isValid) return b.isValid - a.isValid; // valid first
+      return a.word.localeCompare(b.word);
+    });
+}
+
+/**
+ * Returns all words in the list, sorted the same way as autocomplete.
+ */
+function allWords() {
+  const data = loadData();
+  return Object.entries(data.words)
+    .map(([word, entry]) => ({ word, ...entry }))
+    .sort((a, b) => {
+      if (a.isValid !== b.isValid) return b.isValid - a.isValid;
+      return a.word.localeCompare(b.word);
+    });
+}
+
+// ── Export / Import ──────────────────────────────────────────
+
+/**
+ * Returns the full data object as a pretty-printed JSON string.
+ */
+function exportData() {
+  return JSON.stringify(loadData(), null, 2);
+}
+
+/**
+ * Replaces all data with the parsed contents of jsonString.
+ * Throws if the JSON is invalid or doesn't match expected shape.
+ */
+function importData(jsonString) {
+  let parsed;
+  try {
+    parsed = JSON.parse(jsonString);
+  } catch {
+    throw new Error("Invalid JSON — could not parse file.");
+  }
+  if (typeof parsed.words !== "object" || !Array.isArray(parsed.associations)) {
+    throw new Error("Unrecognized format — file must have 'words' and 'associations'.");
+  }
+  saveData(parsed);
+}
+
+// ── Expose as module-style globals ───────────────────────────
+// (No ES module syntax so this works as a plain <script> tag.)
+
+window.SpellingBee = {
+  logMissedWord,
+  addInvalidWord,
+  addKnownWord,
+  addAssociation,
+  updateWord,
+  removeWord,
+  removeAssociation,
+  lookupWord,
+  autocomplete,
+  allWords,
+  exportData,
+  importData,
+  clusterKey,   // exposed for testing
+  normalize,    // exposed for testing
+};
