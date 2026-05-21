@@ -3,7 +3,7 @@
 // Caches app shell for offline use.
 // ============================================================
 
-const CACHE_NAME = "spellingbee-v1";
+const CACHE_NAME = "spellingbee-v2";
 const SHELL = [
   "./index.html",
   "./app.js",
