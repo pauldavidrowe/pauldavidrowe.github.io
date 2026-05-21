@@ -192,8 +192,9 @@ function lookupWord(word) {
   if (!entry) return null;
 
   const key = clusterKey(word);
-  const clusterMembers = Object.keys(data.words).filter(
-    w => clusterKey(w) === key
+  const wordLetters = new Set(word.split(""));
+  const clusterMembers = Object.keys(data.words).filter(w =>
+    [...new Set(w.split(""))].every(l => wordLetters.has(l))
   ).sort();
 
   const associations = data.associations
