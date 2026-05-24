@@ -482,6 +482,61 @@ header h1 {
   letter-spacing: .04em;
 }
 
+/* ── Letter tiles ─────────────────────────────────────────── */
+.letter-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.letter-tile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-tile:active {
+  transform: scale(.9);
+}
+
+.letter-tile.active {
+  background: var(--yellow);
+  border-color: var(--yellow-dk);
+}
+
+.center-letter-hint {
+  font-size: .75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.cluster-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .9rem;
+}
+
+.not-logged-note {
+  font-size: .85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* ── Result card edit/delete actions ─────────────────────── */
 .result-actions {
   flex-direction: row !important;

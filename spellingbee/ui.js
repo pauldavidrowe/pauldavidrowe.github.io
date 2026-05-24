@@ -254,39 +254,25 @@ function renderLookupResult(word) {
   word = word.trim().toUpperCase();
   if (!word) { lookupResult.hidden = true; return; }
 
-  const info = SB.lookupWord(word);
-  if (!info) {
-    lookupResult.innerHTML = `<p class="empty-state">"${word}" is not in your list yet.</p>`;
-    lookupResult.hidden = false;
-    return;
-  }
+  const info = SB.lookupWord(word); // null if word not in list
+  const letters = [...new Set(word.split(""))].sort();
+  let selectedCenter = null;
+  let clusterRevealed = false;
 
-  const validityBadge = info.isValid
-    ? ""
-    : `<span class="badge badge-invalid">invalid</span>`;
+  // ── Static card HTML ──
+  const validityBadge = info && !info.isValid
+    ? `<span class="badge badge-invalid">invalid</span>` : "";
 
-  const clusterOthers = info.cluster.members.filter(w => w !== word);
-  const clusterSection = clusterOthers.length > 0
-    ? `<div class="result-section">
-         <div class="result-section-title">Letter cluster</div>
-         <div>
-           <span>${clusterOthers.length} other word${clusterOthers.length > 1 ? "s" : ""} share these letters.</span>
-           <button class="btn-ghost" id="reveal-cluster-btn">Show</button>
-         </div>
-         <div id="cluster-reveal" class="cluster-members" hidden>
-           ${info.cluster.members.map(w => {
-             const wInfo = SB.lookupWord(w);
-             const cls = wInfo && !wInfo.isValid ? "cluster-chip invalid" : "cluster-chip";
-             return `<span class="${cls}">${w}</span>`;
-           }).join("")}
-         </div>
-       </div>`
-    : `<div class="result-section">
-         <div class="result-section-title">Letter cluster</div>
-         <span style="font-size:.9rem;color:var(--text-muted)">No other words in your list share these letters.</span>
-       </div>`;
+  const missCountRow = info && info.isValid ? `
+    <div class="result-row">
+      <span class="result-label">Times missed</span>
+      <span class="result-value">${info.missCount}</span>
+    </div>` : "";
 
-  const assocSection = info.associations.length > 0
+  const notLoggedNote = !info
+    ? `<p class="not-logged-note">Not in your list</p>` : "";
+
+  const assocSection = info && info.associations.length > 0
     ? `<div class="result-section">
          <div class="result-section-title">Associations</div>
          <div class="assoc-list">
@@ -297,18 +283,9 @@ function renderLookupResult(word) {
                <span class="assoc-word">${a}</span>
              </div>`).join("")}
          </div>
-       </div>`
-    : "";
+       </div>` : "";
 
-  lookupResult.innerHTML = `
-    <div class="result-word ${info.isValid ? "" : "invalid"}">${word} ${validityBadge}</div>
-    ${info.isValid ? `
-    <div class="result-row">
-      <span class="result-label">Times missed</span>
-      <span class="result-value">${info.missCount}</span>
-    </div>` : ""}
-    ${clusterSection}
-    ${assocSection}
+  const editSection = info ? `
     <div class="result-section result-actions">
       <button class="btn-edit" id="edit-word-btn">Edit</button>
       <button class="btn-delete" id="delete-word-btn">Delete</button>
@@ -335,77 +312,139 @@ function renderLookupResult(word) {
         <button class="btn-primary" id="edit-save-btn">Save</button>
         <button class="btn-secondary" id="edit-cancel-btn">Cancel</button>
       </div>
+    </div>` : "";
+
+  lookupResult.innerHTML = `
+    <div class="result-word ${info && !info.isValid ? "invalid" : ""}">${word} ${validityBadge}</div>
+    ${notLoggedNote}
+    ${missCountRow}
+    <div class="result-section">
+      <div class="result-section-title">Center letter <span class="center-letter-hint">(tap to filter cluster)</span></div>
+      <div class="letter-tiles" id="letter-tiles">
+        ${letters.map(l => `<button class="letter-tile" data-letter="${l}">${l}</button>`).join("")}
+      </div>
     </div>
+    <div id="cluster-section"></div>
+    ${assocSection}
+    ${editSection}
   `;
   lookupResult.hidden = false;
 
-  // ── Cluster reveal ──
-  const revealBtn = $("reveal-cluster-btn");
-  if (revealBtn) {
-    revealBtn.addEventListener("click", () => {
-      $("cluster-reveal").hidden = false;
-      revealBtn.hidden = true;
+  // ── Render cluster (called on load and on center letter change) ──
+  function renderCluster() {
+    const members = SB.computeCluster(word, selectedCenter);
+    const section = $("cluster-section");
+
+    if (members.length === 0) {
+      section.innerHTML = `
+        <div class="result-section">
+          <div class="result-section-title">Cluster</div>
+          <span style="font-size:.9rem;color:var(--text-muted)">
+            ${selectedCenter
+              ? `No words in your list use only these letters with "${selectedCenter}".`
+              : "No related words in your list yet."}
+          </span>
+        </div>`;
+      return;
+    }
+
+    section.innerHTML = `
+      <div class="result-section">
+        <div class="result-section-title">Cluster</div>
+        <div class="cluster-header">
+          <span>${members.length} word${members.length > 1 ? "s" : ""}${selectedCenter ? ` containing "${selectedCenter}"` : ""}</span>
+          <button class="btn-ghost" id="reveal-cluster-btn">${clusterRevealed ? "Hide" : "Show"}</button>
+        </div>
+        <div id="cluster-reveal" class="cluster-members" ${clusterRevealed ? "" : "hidden"}>
+          ${members.map(w => {
+            const wInfo = SB.lookupWord(w);
+            const cls = wInfo && !wInfo.isValid ? "cluster-chip invalid" : "cluster-chip";
+            return `<span class="${cls}">${w}</span>`;
+          }).join("")}
+        </div>
+      </div>`;
+
+    $("reveal-cluster-btn").addEventListener("click", () => {
+      clusterRevealed = !clusterRevealed;
+      $("cluster-reveal").hidden = !clusterRevealed;
+      $("reveal-cluster-btn").textContent = clusterRevealed ? "Hide" : "Show";
+    });
+
+    section.querySelectorAll(".cluster-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        exploreWordInput.value = chip.textContent.trim();
+        renderLookupResult(chip.textContent.trim());
+        exploreWordInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
     });
   }
 
-  // ── Cluster chip clicks ──
-  lookupResult.querySelectorAll(".cluster-chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      const target = chip.textContent.trim();
-      exploreWordInput.value = target;
-      renderLookupResult(target);
-      exploreWordInput.scrollIntoView({ behavior: "smooth", block: "center" });
+  renderCluster();
+
+  // ── Letter tile clicks ──
+  $("letter-tiles").querySelectorAll(".letter-tile").forEach(tile => {
+    tile.addEventListener("click", () => {
+      const letter = tile.dataset.letter;
+      if (selectedCenter === letter) {
+        selectedCenter = null;
+        tile.classList.remove("active");
+      } else {
+        $("letter-tiles").querySelectorAll(".letter-tile").forEach(t => t.classList.remove("active"));
+        selectedCenter = letter;
+        tile.classList.add("active");
+      }
+      renderCluster();
     });
   });
 
   // ── Delete ──
-  $("delete-word-btn").addEventListener("click", () => {
-    if (!confirm(`Delete "${word}" and all its associations? This cannot be undone.`)) return;
-    SB.removeWord(word);
-    lookupResult.innerHTML = `<p class="empty-state">"${word}" has been deleted.</p>`;
-    exploreWordInput.value = "";
-  });
+  if (info) {
+    $("delete-word-btn").addEventListener("click", () => {
+      if (!confirm(`Delete "${word}" and all its associations? This cannot be undone.`)) return;
+      SB.removeWord(word);
+      lookupResult.innerHTML = `<p class="empty-state">"${word}" has been deleted.</p>`;
+      exploreWordInput.value = "";
+    });
 
-  // ── Edit: show form ──
-  $("edit-word-btn").addEventListener("click", () => {
-    $("edit-form").hidden = false;
-    $("edit-word-btn").hidden = true;
-  });
+    // ── Edit: show form ──
+    $("edit-word-btn").addEventListener("click", () => {
+      $("edit-form").hidden = false;
+      $("edit-word-btn").hidden = true;
+    });
 
-  // ── Edit: toggle/stepper logic ──
-  const editToggleValid = $("edit-toggle-valid");
-  const editCountRow    = $("edit-count-row");
-  const stepperCount    = $("stepper-count");
-  let editCount = info.missCount;
+    // ── Edit: toggle/stepper logic ──
+    const editToggleValid = $("edit-toggle-valid");
+    const editCountRow    = $("edit-count-row");
+    const stepperCount    = $("stepper-count");
+    let editCount = info.missCount;
 
-  function refreshEditCountRow() {
-    editCountRow.hidden = !editToggleValid.checked;
-    if (!editToggleValid.checked) editCount = 0;
-    stepperCount.textContent = editCount;
+    function refreshEditCountRow() {
+      editCountRow.hidden = !editToggleValid.checked;
+      if (!editToggleValid.checked) editCount = 0;
+      stepperCount.textContent = editCount;
+    }
+    refreshEditCountRow();
+
+    editToggleValid.addEventListener("change", refreshEditCountRow);
+
+    $("stepper-minus").addEventListener("click", () => {
+      if (editCount > 0) { editCount--; stepperCount.textContent = editCount; }
+    });
+    $("stepper-plus").addEventListener("click", () => {
+      editCount++;
+      stepperCount.textContent = editCount;
+    });
+
+    $("edit-save-btn").addEventListener("click", () => {
+      SB.updateWord(word, { isValid: editToggleValid.checked, missCount: editCount });
+      renderLookupResult(word);
+    });
+
+    $("edit-cancel-btn").addEventListener("click", () => {
+      $("edit-form").hidden = true;
+      $("edit-word-btn").hidden = false;
+    });
   }
-  refreshEditCountRow();
-
-  editToggleValid.addEventListener("change", refreshEditCountRow);
-
-  $("stepper-minus").addEventListener("click", () => {
-    if (editCount > 0) { editCount--; stepperCount.textContent = editCount; }
-  });
-  $("stepper-plus").addEventListener("click", () => {
-    editCount++;
-    stepperCount.textContent = editCount;
-  });
-
-  // ── Edit: save ──
-  $("edit-save-btn").addEventListener("click", () => {
-    SB.updateWord(word, { isValid: editToggleValid.checked, missCount: editCount });
-    renderLookupResult(word); // re-render with updated data
-  });
-
-  // ── Edit: cancel ──
-  $("edit-cancel-btn").addEventListener("click", () => {
-    $("edit-form").hidden = true;
-    $("edit-word-btn").hidden = false;
-  });
 }
 
 exploreWordInput.addEventListener("input", () => {

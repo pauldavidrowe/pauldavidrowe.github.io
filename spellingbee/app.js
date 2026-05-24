@@ -270,6 +270,26 @@ function importData(jsonString) {
 // ── Expose as module-style globals ───────────────────────────
 // (No ES module syntax so this works as a plain <script> tag.)
 
+/**
+ * Returns all logged words whose unique letter set is a subset of `word`'s
+ * unique letter set. If `centerLetter` is provided, further filters to only
+ * words that contain that letter. The source word itself is excluded.
+ */
+function computeCluster(word, centerLetter) {
+  word = normalize(word);
+  centerLetter = centerLetter ? centerLetter.toUpperCase() : null;
+  const wordLetters = new Set(word.split(""));
+  const data = loadData();
+  return Object.keys(data.words).filter(w => {
+    if (w === word) return false;
+    const wLetters = new Set(w.split(""));
+    const isSubset = [...wLetters].every(l => wordLetters.has(l));
+    if (!isSubset) return false;
+    if (centerLetter) return wLetters.has(centerLetter);
+    return true;
+  }).sort();
+}
+
 window.SpellingBee = {
   logMissedWord,
   addInvalidWord,
@@ -279,6 +299,7 @@ window.SpellingBee = {
   removeWord,
   removeAssociation,
   lookupWord,
+  computeCluster,
   autocomplete,
   allWords,
   exportData,
