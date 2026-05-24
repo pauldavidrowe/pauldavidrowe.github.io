@@ -508,16 +508,22 @@ assocQueryInput.addEventListener("keydown", e => {
 
 // ── All words list ────────────────────────────────────────────
 
-const filterInput    = $("filter-input");
-const allWordsList   = $("all-words-list");
+const filterInput       = $("filter-input");
+const allWordsList      = $("all-words-list");
+const toggleShowAllWords = $("toggle-show-all-words");
+
+toggleShowAllWords.addEventListener("change", () => renderAllWords(filterInput.value));
 
 function renderAllWords(filter = "") {
   filter = filter.trim().toUpperCase();
+  const showAll = toggleShowAllWords.checked;
   let words = SB.allWords();
+  if (!showAll) words = words.filter(w => w.missCount > 0);
   if (filter) words = words.filter(w => w.word.includes(filter));
 
   if (!words.length) {
-    allWordsList.innerHTML = `<p class="empty-state">${filter ? "No words match." : "No words logged yet."}</p>`;
+    const hint = !showAll && !filter ? " (enable \"Show known & invalid words\" to see the rest)" : "";
+    allWordsList.innerHTML = `<p class="empty-state">${filter ? "No words match." : "No missed words logged yet." + hint}</p>`;
     return;
   }
 

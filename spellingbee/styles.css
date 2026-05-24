@@ -669,6 +669,14 @@ header h1 {
   color: var(--text-muted);
 }
 
+/* ── All words filter row ─────────────────────────────────── */
+.all-words-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+}
+
 /* ── Explore sub-views ────────────────────────────────────── */
 .explore-view {
   display: flex;

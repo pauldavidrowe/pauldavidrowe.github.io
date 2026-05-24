@@ -282,6 +282,7 @@ function computeCluster(word, centerLetter) {
   const data = loadData();
   return Object.keys(data.words).filter(w => {
     if (w === word) return false;
+    if (data.words[w].missCount === 0) return false;
     const wLetters = new Set(w.split(""));
     const isSubset = [...wLetters].every(l => wordLetters.has(l));
     if (!isSubset) return false;
