@@ -1,0 +1,81 @@
+{
+  "id": 2,
+  "url": "",
+  "title": "Frozen Pizza",
+  "servings": "2",
+  "scraped_at": "2026-06-13T19:57:55.922352",
+  "scale_factor": 1.0,
+  "recipe_text": "Manual entry. Ignore for training.",
+  "ingredients": [
+    {
+      "name": "Frozen pizza",
+      "quantity": "1",
+      "unit": "box",
+      "preparation_note": null
+    }
+  ],
+  "steps": [
+    {
+      "id": 266,
+      "position": 1,
+      "raw_text": "Pre-heat oven to 425 degrees",
+      "category": "prep",
+      "attention": "hands_free",
+      "time_min": 8.0,
+      "time_source": "estimated",
+      "equipment": "oven",
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 267,
+      "position": 2,
+      "raw_text": "Remove pizza from box and remove plastic wrapping.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        1
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 268,
+      "position": 3,
+      "raw_text": "Bake the pizza directly on oven rack according to package instructions",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 17.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        2
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 269,
+      "position": 4,
+      "raw_text": "Let cool, cut and serve",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": "pizza cutter",
+      "image_url": null,
+      "deps": [
+        3
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    }
+  ]
+}

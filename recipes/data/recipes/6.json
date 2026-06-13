@@ -118,11 +118,11 @@
   ],
   "steps": [
     {
-      "id": 223,
+      "id": 331,
       "position": 1,
       "raw_text": "Cook 2 cups uncooked orzo according to package directions.",
       "category": "cook",
-      "attention": "occasional",
+      "attention": "hands_free",
       "time_min": 10.0,
       "time_source": "recipe_stated",
       "equipment": "large pot",
@@ -134,7 +134,7 @@
       "timing": "jit"
     },
     {
-      "id": 224,
+      "id": 332,
       "position": 2,
       "raw_text": "In a medium bowl, combine ½ cup mayonnaise, ½ cup light sour cream, ¼ cup lemon juice, 2 tsp salt, 1 tsp curry powder, ¼ cup white wine vinegar, ¼ cup sugar, ½ tsp turmeric, ½ tsp freshly ground black pepper, and ¼ tsp cayenne pepper. Mix well until smooth.",
       "category": "prep",
@@ -159,7 +159,7 @@
       "timing": "jit"
     },
     {
-      "id": 225,
+      "id": 333,
       "position": 3,
       "raw_text": "Dice ¾ cup red onion into small, even pieces.",
       "category": "prep",
@@ -175,7 +175,7 @@
       "timing": "jit"
     },
     {
-      "id": 226,
+      "id": 334,
       "position": 4,
       "raw_text": "Dice 2 cups Granny Smith apples (unpeeled) into small, even pieces.",
       "category": "prep",
@@ -191,7 +191,7 @@
       "timing": "jit"
     },
     {
-      "id": 227,
+      "id": 335,
       "position": 5,
       "raw_text": "Slice 1 cup red grapes in half.",
       "category": "prep",
@@ -207,7 +207,7 @@
       "timing": "jit"
     },
     {
-      "id": 228,
+      "id": 336,
       "position": 6,
       "raw_text": "If using rotisserie chicken, chop 2 cups into bite-sized pieces.",
       "category": "prep",
@@ -223,7 +223,7 @@
       "timing": "jit"
     },
     {
-      "id": 229,
+      "id": 337,
       "position": 7,
       "raw_text": "Pour the dressing over the warm orzo and mix well to distribute evenly.",
       "category": "assembly",
@@ -240,7 +240,7 @@
       "timing": "jit"
     },
     {
-      "id": 230,
+      "id": 338,
       "position": 8,
       "raw_text": "Add 2 cups chopped rotisserie chicken (optional), ½ cup golden raisins, ½ cup slivered almonds (toasted), ¾ cup diced red onion, 2 cups diced Granny Smith apples, and 1 cup halved red grapes to the orzo. Mix thoroughly.",
       "category": "assembly",
@@ -267,7 +267,7 @@
       "timing": "jit"
     },
     {
-      "id": 231,
+      "id": 339,
       "position": 9,
       "raw_text": "Refrigerate the salad overnight, or for at least several hours.",
       "category": "cook",
@@ -283,7 +283,7 @@
       "timing": "asap"
     },
     {
-      "id": 232,
+      "id": 340,
       "position": 10,
       "raw_text": "Chop and cut fresh basil into ribbons, setting aside some for garnish.",
       "category": "prep",
@@ -299,7 +299,7 @@
       "timing": "jit"
     },
     {
-      "id": 233,
+      "id": 341,
       "position": 11,
       "raw_text": "Divide the curried orzo salad into serving bowls and garnish with reserved fresh basil right before serving.",
       "category": "assembly",

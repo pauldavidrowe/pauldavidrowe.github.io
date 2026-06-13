@@ -1,5 +1,12 @@
 [
   {
+    "id": 2,
+    "title": "Frozen Pizza",
+    "url": "",
+    "servings": "2",
+    "scraped_at": "2026-06-13T19:57:55.922352"
+  },
+  {
     "id": 6,
     "title": "Curried Orzo Salad",
     "url": "",
