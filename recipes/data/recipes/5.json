@@ -90,11 +90,23 @@
       "quantity": "2-4",
       "unit": "tbsp",
       "preparation_note": null
+    },
+    {
+      "name": "raisins",
+      "quantity": "2",
+      "unit": "handfuls",
+      "preparation_note": null
+    },
+    {
+      "name": "white wine",
+      "quantity": "¼",
+      "unit": "cup",
+      "preparation_note": null
     }
   ],
   "steps": [
     {
-      "id": 211,
+      "id": 342,
       "position": 1,
       "raw_text": "Heat a large sauté pan over high heat, then add 1½ lb ground beef and break it up into small pieces with a wooden spoon as it cooks. Season with kosher salt and fresh ground pepper. Cook until meat is no longer pink, about 8 minutes.",
       "category": "cook",
@@ -112,7 +124,7 @@
       "timing": "jit"
     },
     {
-      "id": 212,
+      "id": 343,
       "position": 2,
       "raw_text": "Chop ½ large onion into pieces.",
       "category": "prep",
@@ -128,7 +140,7 @@
       "timing": "jit"
     },
     {
-      "id": 213,
+      "id": 344,
       "position": 3,
       "raw_text": "Mince 2 cloves garlic.",
       "category": "prep",
@@ -144,7 +156,7 @@
       "timing": "jit"
     },
     {
-      "id": 214,
+      "id": 345,
       "position": 4,
       "raw_text": "Chop 1 tomato into pieces.",
       "category": "prep",
@@ -160,7 +172,7 @@
       "timing": "jit"
     },
     {
-      "id": 215,
+      "id": 346,
       "position": 5,
       "raw_text": "Finely chop ½ red bell pepper.",
       "category": "prep",
@@ -176,7 +188,7 @@
       "timing": "jit"
     },
     {
-      "id": 216,
+      "id": 347,
       "position": 6,
       "raw_text": "Chop 2 tbsp cilantro.",
       "category": "prep",
@@ -192,7 +204,7 @@
       "timing": "jit"
     },
     {
-      "id": 217,
+      "id": 348,
       "position": 7,
       "raw_text": "Drain all juice from the pan with the cooked meat.",
       "category": "cook",
@@ -208,7 +220,7 @@
       "timing": "jit"
     },
     {
-      "id": 218,
+      "id": 349,
       "position": 8,
       "raw_text": "Add the chopped ½ onion, 2 cloves minced garlic, ½ red bell pepper, 1 chopped tomato, and 2 tbsp cilantro to the meat in the pan.",
       "category": "cook",
@@ -235,7 +247,7 @@
       "timing": "jit"
     },
     {
-      "id": 219,
+      "id": 350,
       "position": 9,
       "raw_text": "Reduce heat to low and cook the vegetables until soft, about 5 minutes, stirring occasionally.",
       "category": "cook",
@@ -251,7 +263,7 @@
       "timing": "jit"
     },
     {
-      "id": 220,
+      "id": 351,
       "position": 10,
       "raw_text": "Add 2 tbsp pitted green olives or alcaparrado, 2-4 tbsp olive brine, 1 tsp ground cumin, 1-2 dried bay leaves, and more kosher salt if needed. Mix well.",
       "category": "cook",
@@ -273,9 +285,9 @@
       "timing": "jit"
     },
     {
-      "id": 221,
+      "id": 352,
       "position": 11,
-      "raw_text": "Add 4 oz tomato sauce and ¼ cup water to the pan and mix well.",
+      "raw_text": "Add 4 oz (1/2 can) tomato sauce, 2 handfuls raisins, ¼ cup white wine, and ¼ cup water to the pan and mix well.",
       "category": "cook",
       "attention": "hands_on",
       "time_min": 1.0,
@@ -292,7 +304,7 @@
       "timing": "jit"
     },
     {
-      "id": 222,
+      "id": 353,
       "position": 12,
       "raw_text": "Reduce heat and simmer covered for about 20 minutes until flavors meld.",
       "category": "cook",
