@@ -5,7 +5,7 @@ description: >-
   The personal webpage of Paul Rowe.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: SidikiXavier
+# twitter_username: SidikiXavier
 github_username:  pauldavidrowe
 # Specify the name of a file to show as a masthead graphic at the top of each page, instead of a title, here:
 masthead: /images/pdr-logo.png
