@@ -102,12 +102,46 @@
       "quantity": "¼",
       "unit": "cup",
       "preparation_note": null
+    },
+    {
+      "name": "light sour cream",
+      "quantity": null,
+      "unit": "to taste",
+      "preparation_note": null
+    },
+    {
+      "name": "tortillas",
+      "quantity": "6",
+      "unit": "whole",
+      "preparation_note": null
+    },
+    {
+      "name": "avocado",
+      "quantity": "1",
+      "unit": "whole",
+      "preparation_note": null
     }
   ],
   "steps": [
     {
       "id": 342,
       "position": 1,
+      "raw_text": "Cut up avocado. Serve picadillo on tortillas with sour cream and avocado.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        13
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 343,
+      "position": 2,
       "raw_text": "Heat a large sauté pan over high heat, then add 1½ lb ground beef and break it up into small pieces with a wooden spoon as it cooks. Season with kosher salt and fresh ground pepper. Cook until meat is no longer pink, about 8 minutes.",
       "category": "cook",
       "attention": "occasional",
@@ -124,8 +158,8 @@
       "timing": "jit"
     },
     {
-      "id": 343,
-      "position": 2,
+      "id": 344,
+      "position": 3,
       "raw_text": "Chop ½ large onion into pieces.",
       "category": "prep",
       "attention": "hands_on",
@@ -140,8 +174,8 @@
       "timing": "jit"
     },
     {
-      "id": 344,
-      "position": 3,
+      "id": 345,
+      "position": 4,
       "raw_text": "Mince 2 cloves garlic.",
       "category": "prep",
       "attention": "hands_on",
@@ -156,8 +190,8 @@
       "timing": "jit"
     },
     {
-      "id": 345,
-      "position": 4,
+      "id": 346,
+      "position": 5,
       "raw_text": "Chop 1 tomato into pieces.",
       "category": "prep",
       "attention": "hands_on",
@@ -172,8 +206,8 @@
       "timing": "jit"
     },
     {
-      "id": 346,
-      "position": 5,
+      "id": 347,
+      "position": 6,
       "raw_text": "Finely chop ½ red bell pepper.",
       "category": "prep",
       "attention": "hands_on",
@@ -188,8 +222,8 @@
       "timing": "jit"
     },
     {
-      "id": 347,
-      "position": 6,
+      "id": 348,
+      "position": 7,
       "raw_text": "Chop 2 tbsp cilantro.",
       "category": "prep",
       "attention": "hands_on",
@@ -204,8 +238,8 @@
       "timing": "jit"
     },
     {
-      "id": 348,
-      "position": 7,
+      "id": 349,
+      "position": 8,
       "raw_text": "Drain all juice from the pan with the cooked meat.",
       "category": "cook",
       "attention": "hands_on",
@@ -214,14 +248,14 @@
       "equipment": null,
       "image_url": null,
       "deps": [
-        1
+        2
       ],
       "ingredients_used": [],
       "timing": "jit"
     },
     {
-      "id": 349,
-      "position": 8,
+      "id": 350,
+      "position": 9,
       "raw_text": "Add the chopped ½ onion, 2 cloves minced garlic, ½ red bell pepper, 1 chopped tomato, and 2 tbsp cilantro to the meat in the pan.",
       "category": "cook",
       "attention": "hands_on",
@@ -230,12 +264,12 @@
       "equipment": "large sauté pan",
       "image_url": null,
       "deps": [
-        2,
         3,
         4,
         5,
         6,
-        7
+        7,
+        8
       ],
       "ingredients_used": [
         "½ onion",
@@ -247,8 +281,8 @@
       "timing": "jit"
     },
     {
-      "id": 350,
-      "position": 9,
+      "id": 351,
+      "position": 10,
       "raw_text": "Reduce heat to low and cook the vegetables until soft, about 5 minutes, stirring occasionally.",
       "category": "cook",
       "attention": "occasional",
@@ -257,14 +291,14 @@
       "equipment": "large sauté pan",
       "image_url": null,
       "deps": [
-        8
+        9
       ],
       "ingredients_used": [],
       "timing": "jit"
     },
     {
-      "id": 351,
-      "position": 10,
+      "id": 352,
+      "position": 11,
       "raw_text": "Add 2 tbsp pitted green olives or alcaparrado, 2-4 tbsp olive brine, 1 tsp ground cumin, 1-2 dried bay leaves, and more kosher salt if needed. Mix well.",
       "category": "cook",
       "attention": "hands_on",
@@ -273,7 +307,7 @@
       "equipment": "large sauté pan",
       "image_url": null,
       "deps": [
-        9
+        10
       ],
       "ingredients_used": [
         "2 tbsp pitted green olives or alcaparrado",
@@ -285,8 +319,8 @@
       "timing": "jit"
     },
     {
-      "id": 352,
-      "position": 11,
+      "id": 353,
+      "position": 12,
       "raw_text": "Add 4 oz (1/2 can) tomato sauce, 2 handfuls raisins, ¼ cup white wine, and ¼ cup water to the pan and mix well.",
       "category": "cook",
       "attention": "hands_on",
@@ -295,7 +329,7 @@
       "equipment": "large sauté pan",
       "image_url": null,
       "deps": [
-        10
+        11
       ],
       "ingredients_used": [
         "4 oz tomato sauce",
@@ -304,8 +338,8 @@
       "timing": "jit"
     },
     {
-      "id": 353,
-      "position": 12,
+      "id": 354,
+      "position": 13,
       "raw_text": "Reduce heat and simmer covered for about 20 minutes until flavors meld.",
       "category": "cook",
       "attention": "hands_free",
@@ -314,7 +348,7 @@
       "equipment": "large sauté pan",
       "image_url": null,
       "deps": [
-        11
+        12
       ],
       "ingredients_used": [],
       "timing": "jit"
