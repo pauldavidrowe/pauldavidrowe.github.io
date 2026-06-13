@@ -1,0 +1,30 @@
+[
+  {
+    "id": 5,
+    "title": "Spicy Sausage Pasta",
+    "url": "https://emilybites.com/2013/02/spicy-sausage-pasta.html",
+    "servings": "6 servings",
+    "scraped_at": "2026-06-13T13:04:53.639422"
+  },
+  {
+    "id": 4,
+    "title": "Spicy Sausage Pasta",
+    "url": "https://emilybites.com/2013/02/spicy-sausage-pasta.html",
+    "servings": "6",
+    "scraped_at": "2026-06-13T02:09:27.531091"
+  },
+  {
+    "id": 2,
+    "title": "Cacio e Pepe",
+    "url": "https://www.thekitchn.com/cacio-e-pepe-recipe-23635092",
+    "servings": "4",
+    "scraped_at": "2026-06-10T23:22:01.297641"
+  },
+  {
+    "id": 1,
+    "title": "Spicy Sausage Pasta",
+    "url": "https://emilybites.com/2013/02/spicy-sausage-pasta.html",
+    "servings": "6",
+    "scraped_at": "2026-06-10T21:40:02.056976"
+  }
+]

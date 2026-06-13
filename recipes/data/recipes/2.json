@@ -1,0 +1,414 @@
+{
+  "id": 2,
+  "url": "https://www.thekitchn.com/cacio-e-pepe-recipe-23635092",
+  "title": "Cacio e Pepe",
+  "servings": "4",
+  "scraped_at": "2026-06-10T23:22:01.297641",
+  "scale_factor": 1.0,
+  "recipe_text": "",
+  "ingredients": [
+    {
+      "name": "whole black peppercorns",
+      "quantity": "1 1/2",
+      "unit": "teaspoons",
+      "preparation_note": "don't use pre-ground"
+    },
+    {
+      "name": "dry spaghetti or bucatini",
+      "quantity": "1",
+      "unit": "pound",
+      "preparation_note": null
+    },
+    {
+      "name": "Pecorino Romano cheese",
+      "quantity": "4",
+      "unit": "ounces",
+      "preparation_note": "finely grated, about 2 1/2 cups"
+    },
+    {
+      "name": "kosher salt",
+      "quantity": null,
+      "unit": null,
+      "preparation_note": "to taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": 129,
+      "position": 1,
+      "raw_text": "Bring a large pot halfway full of water to a boil over medium-high heat.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 10.0,
+      "time_source": "estimated",
+      "equipment": "large pot",
+      "image_url": null,
+      "deps": [],
+      "subtasks": [
+        "bring to boil"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 130,
+      "position": 2,
+      "raw_text": "Meanwhile, finely grate 4 ounces Pecorino Romano cheese on a Microplane or on the very small round holes of a box grater into a medium heatproof bowl (about 2 1/2 cups).",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 5.0,
+      "time_source": "estimated",
+      "equipment": "box grater, medium heatproof bowl",
+      "image_url": null,
+      "deps": [],
+      "subtasks": [
+        "grate cheese"
+      ],
+      "ingredients_used": [
+        "4 ounces Pecorino Romano cheese"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 131,
+      "position": 3,
+      "raw_text": "Add 1 pound dry spaghetti and a few pinches kosher salt to the boiling water and cook according to package directions until just al dente, 8 to 10 minutes.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 9.0,
+      "time_source": "recipe_stated",
+      "equipment": "large pot",
+      "image_url": null,
+      "deps": [
+        1
+      ],
+      "subtasks": [
+        "add pasta"
+      ],
+      "ingredients_used": [
+        "1 pound dry spaghetti",
+        "kosher salt"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 132,
+      "position": 4,
+      "raw_text": "Place 1 1/2 teaspoons whole black peppercorns in a large skillet and cook over medium heat, shaking the pan occasionally, until fragrant and you hear the peppercorns start to crackle or roll around the pan on their own, about 3 minutes.",
+      "category": "cook",
+      "attention": "occasional",
+      "time_min": 3.0,
+      "time_source": "recipe_stated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [],
+      "subtasks": [
+        "cook garlic"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 133,
+      "position": 5,
+      "raw_text": "Let the peppercorns cool, then coarsely crush 1 1/2 teaspoons with a mortar and pestle or under a heavy pan on a cutting board, or coarsely grind in a spice grinder.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        4
+      ],
+      "subtasks": [
+        "crush peppercorns"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 134,
+      "position": 6,
+      "raw_text": "Return the crushed peppercorns to the skillet.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 0.2,
+      "time_source": "estimated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        5
+      ],
+      "subtasks": [],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 135,
+      "position": 7,
+      "raw_text": "Right before the pasta is ready, transfer 1/2 cup of the cooking water to the skillet with the crushed peppercorns.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        3,
+        6
+      ],
+      "subtasks": [
+        "add broth"
+      ],
+      "ingredients_used": [
+        "1/2 cup pasta cooking water"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 136,
+      "position": 8,
+      "raw_text": "Bring the pasta water and peppercorns to a simmer over medium heat.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        7
+      ],
+      "subtasks": [
+        "bring to boil"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 137,
+      "position": 9,
+      "raw_text": "Scoop about 1/2 cup more cooking water into a measuring cup.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 0.1,
+      "time_source": "estimated",
+      "equipment": "measuring cup",
+      "image_url": null,
+      "deps": [
+        3
+      ],
+      "subtasks": [],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 138,
+      "position": 10,
+      "raw_text": "Using tongs, transfer the pasta to the skillet, letting some water cling to the noodles.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        3,
+        8
+      ],
+      "subtasks": [
+        "add pasta"
+      ],
+      "ingredients_used": [
+        "1 pound cooked spaghetti with cooking water"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 139,
+      "position": 11,
+      "raw_text": "Drizzle 1 to 2 tablespoons of the pasta water into the bowl of grated cheese and start mashing with a fork to evenly moisten it.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": "medium heatproof bowl, fork",
+      "image_url": null,
+      "deps": [
+        2,
+        9
+      ],
+      "subtasks": [
+        "mix ingredients"
+      ],
+      "ingredients_used": [
+        "1 to 2 tablespoons pasta water",
+        "4 ounces grated Pecorino Romano cheese"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 140,
+      "position": 12,
+      "raw_text": "Cook, tossing often, until the pasta is well-coated and there is very little cooking water left in the skillet, 2 to 3 minutes.",
+      "category": "cook",
+      "attention": "occasional",
+      "time_min": 2.5,
+      "time_source": "recipe_stated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        10
+      ],
+      "subtasks": [
+        "mix pasta with sauce"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 141,
+      "position": 13,
+      "raw_text": "Continue to drizzle more pasta water in and mash until the cheese becomes a soft paste. You might not need the full 1/2 cup, but make sure the cheese paste isn't dry, or it will be harder to toss with the spaghetti.",
+      "category": "cook",
+      "attention": "occasional",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": "medium heatproof bowl, fork",
+      "image_url": null,
+      "deps": [
+        11
+      ],
+      "subtasks": [
+        "mix ingredients"
+      ],
+      "ingredients_used": [
+        "remaining pasta water from 1/2 cup",
+        "cheese mixture"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 142,
+      "position": 14,
+      "raw_text": "Turn the heat off.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": "large skillet",
+      "image_url": null,
+      "deps": [
+        12
+      ],
+      "subtasks": [
+        "remove pan from heat"
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 143,
+      "position": 15,
+      "raw_text": "Spoon about one-quarter of the cheese paste on top of the spaghetti and quickly toss together until the cheese melts.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": "large skillet, tongs",
+      "image_url": null,
+      "deps": [
+        13,
+        14
+      ],
+      "subtasks": [
+        "mix pasta with sauce"
+      ],
+      "ingredients_used": [
+        "1/4 of cheese paste"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 144,
+      "position": 16,
+      "raw_text": "Continue gradually adding more dollops of cheese paste and tossing, making sure the cheese is well-blended and melted before adding more. Add drizzles of pasta water as needed when the pasta seems dry to help blend the cheese, but do not add too much at this stage — just enough to moisten the noodles. Use the back of your tongs to break apart any clumps of the cheese paste, and make sure it doesn't fall to the bottom of the skillet, where it can overheat and seize.",
+      "category": "cook",
+      "attention": "occasional",
+      "time_min": 5.0,
+      "time_source": "estimated",
+      "equipment": "large skillet, tongs",
+      "image_url": null,
+      "deps": [
+        15
+      ],
+      "subtasks": [
+        "mix pasta with sauce"
+      ],
+      "ingredients_used": [
+        "remaining cheese paste",
+        "pasta water as needed"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 145,
+      "position": 17,
+      "raw_text": "Once all the cheese paste has been tossed in and the noodles are glossy and coated, add pasta water in 1/4-cup increments, tossing between each, until the noodles are lightly sauced and well-coated but not runny.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": "large skillet, tongs",
+      "image_url": null,
+      "deps": [
+        16
+      ],
+      "subtasks": [
+        "mix pasta with sauce"
+      ],
+      "ingredients_used": [
+        "pasta water in 1/4-cup increments"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 146,
+      "position": 18,
+      "raw_text": "Taste and season with kosher salt as needed.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        17
+      ],
+      "subtasks": [
+        "season with salt and pepper"
+      ],
+      "ingredients_used": [
+        "kosher salt"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 147,
+      "position": 19,
+      "raw_text": "Serve immediately.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        18
+      ],
+      "subtasks": [],
+      "ingredients_used": [],
+      "timing": "jit"
+    }
+  ]
+}
