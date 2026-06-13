@@ -1,0 +1,321 @@
+{
+  "id": 6,
+  "url": "",
+  "title": "Curried Orzo Salad",
+  "servings": "6",
+  "scraped_at": "2026-06-13T17:26:03.209433",
+  "scale_factor": 1.0,
+  "recipe_text": "Recipe: Curried Orzo Salad\nYield: 6\nPrep time: 15m\nCook time: 15m\nTotal time: 30m\n\nIngredients:\n  - 2 cups uncooked orzo (I buy DeLallo brand)\n  - 2 cups Rotisserie chicken (chopped (optional))\n  - ½ cup golden raisins (or regular)\n  - ½ cup slivered almonds toasted\n  - ¾ cup red onion (diced)\n  - 2 cups Granny Smith apples (diced (unpeeled))\n  - 1 cup red grapes (sliced in half)\n  - Fresh basil, chopped (cut in ribbons (leave some for garnish))\n  - ½ cup mayonnaise\n  - ½ cup light sour cream\n  - ¼ cup lemon juice\n  - 2 tsp salt\n  - 1 tsp curry powder\n  - ¼ cup white wine vinegar\n  - ¼ cup sugar\n  - ½ tsp turmeric\n  - ½ tsp freshly ground black pepper\n  - ¼ tsp cayenne pepper\n\nInstructions:\n  1. Cook orzo according to package directions.\n  2. Combine all dressing ingredients (mayonnaise through the cayenne pepper), and mix well.\n  3. Pour dressing over warm orzo, then add chicken (optional), raisins, almonds, onions, apples, and grapes.\n  4. Mix thoroughly, then refrigerate overnight; serve!\n  5. Garnish with fresh basil right before serving!",
+  "ingredients": [
+    {
+      "name": "orzo",
+      "quantity": "2",
+      "unit": "cups",
+      "preparation_note": "uncooked"
+    },
+    {
+      "name": "rotisserie chicken",
+      "quantity": "2",
+      "unit": "cups",
+      "preparation_note": "chopped, optional"
+    },
+    {
+      "name": "golden raisins",
+      "quantity": "½",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "slivered almonds",
+      "quantity": "½",
+      "unit": "cup",
+      "preparation_note": "toasted"
+    },
+    {
+      "name": "red onion",
+      "quantity": "¾",
+      "unit": "cup",
+      "preparation_note": "diced"
+    },
+    {
+      "name": "Granny Smith apples",
+      "quantity": "2",
+      "unit": "cups",
+      "preparation_note": "diced, unpeeled"
+    },
+    {
+      "name": "red grapes",
+      "quantity": "1",
+      "unit": "cup",
+      "preparation_note": "sliced in half"
+    },
+    {
+      "name": "fresh basil",
+      "quantity": null,
+      "unit": null,
+      "preparation_note": "chopped, cut in ribbons, some left for garnish"
+    },
+    {
+      "name": "mayonnaise",
+      "quantity": "½",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "light sour cream",
+      "quantity": "½",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "lemon juice",
+      "quantity": "¼",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "salt",
+      "quantity": "2",
+      "unit": "tsp",
+      "preparation_note": null
+    },
+    {
+      "name": "curry powder",
+      "quantity": "1",
+      "unit": "tsp",
+      "preparation_note": null
+    },
+    {
+      "name": "white wine vinegar",
+      "quantity": "¼",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "sugar",
+      "quantity": "¼",
+      "unit": "cup",
+      "preparation_note": null
+    },
+    {
+      "name": "turmeric",
+      "quantity": "½",
+      "unit": "tsp",
+      "preparation_note": null
+    },
+    {
+      "name": "freshly ground black pepper",
+      "quantity": "½",
+      "unit": "tsp",
+      "preparation_note": null
+    },
+    {
+      "name": "cayenne pepper",
+      "quantity": "¼",
+      "unit": "tsp",
+      "preparation_note": null
+    }
+  ],
+  "steps": [
+    {
+      "id": 223,
+      "position": 1,
+      "raw_text": "Cook 2 cups uncooked orzo according to package directions.",
+      "category": "cook",
+      "attention": "occasional",
+      "time_min": 10.0,
+      "time_source": "recipe_stated",
+      "equipment": "large pot",
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "2 cups uncooked orzo"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 224,
+      "position": 2,
+      "raw_text": "In a medium bowl, combine ½ cup mayonnaise, ½ cup light sour cream, ¼ cup lemon juice, 2 tsp salt, 1 tsp curry powder, ¼ cup white wine vinegar, ¼ cup sugar, ½ tsp turmeric, ½ tsp freshly ground black pepper, and ¼ tsp cayenne pepper. Mix well until smooth.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": "medium bowl",
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "½ cup mayonnaise",
+        "½ cup light sour cream",
+        "¼ cup lemon juice",
+        "2 tsp salt",
+        "1 tsp curry powder",
+        "¼ cup white wine vinegar",
+        "¼ cup sugar",
+        "½ tsp turmeric",
+        "½ tsp freshly ground black pepper",
+        "¼ tsp cayenne pepper"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 225,
+      "position": 3,
+      "raw_text": "Dice ¾ cup red onion into small, even pieces.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "¾ cup red onion"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 226,
+      "position": 4,
+      "raw_text": "Dice 2 cups Granny Smith apples (unpeeled) into small, even pieces.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 5.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "2 cups Granny Smith apples"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 227,
+      "position": 5,
+      "raw_text": "Slice 1 cup red grapes in half.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "1 cup red grapes"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 228,
+      "position": 6,
+      "raw_text": "If using rotisserie chicken, chop 2 cups into bite-sized pieces.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "2 cups rotisserie chicken"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 229,
+      "position": 7,
+      "raw_text": "Pour the dressing over the warm orzo and mix well to distribute evenly.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        1,
+        2
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 230,
+      "position": 8,
+      "raw_text": "Add 2 cups chopped rotisserie chicken (optional), ½ cup golden raisins, ½ cup slivered almonds (toasted), ¾ cup diced red onion, 2 cups diced Granny Smith apples, and 1 cup halved red grapes to the orzo. Mix thoroughly.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "ingredients_used": [
+        "2 cups rotisserie chicken",
+        "½ cup golden raisins",
+        "½ cup slivered almonds",
+        "¾ cup red onion",
+        "2 cups Granny Smith apples",
+        "1 cup red grapes"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 231,
+      "position": 9,
+      "raw_text": "Refrigerate the salad overnight, or for at least several hours.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        8
+      ],
+      "ingredients_used": [],
+      "timing": "asap"
+    },
+    {
+      "id": 232,
+      "position": 10,
+      "raw_text": "Chop and cut fresh basil into ribbons, setting aside some for garnish.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "fresh basil"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 233,
+      "position": 11,
+      "raw_text": "Divide the curried orzo salad into serving bowls and garnish with reserved fresh basil right before serving.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        9,
+        10
+      ],
+      "ingredients_used": [
+        "fresh basil"
+      ],
+      "timing": "jit"
+    }
+  ]
+}
