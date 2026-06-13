@@ -3,7 +3,7 @@ title: Paul D. Rowe
 email: pauldavidrowe@gmail.com
 description: >- 
   The personal webpage of Paul Rowe.
-baseurl: "/publicaions" # the subpath of your site, e.g. /blog
+baseurl: "/publications" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: SidikiXavier
 github_username:  pauldavidrowe
