@@ -1,9 +1,7 @@
 ---
-layout: post
+layout: page
 title: "Boole on Aristotle"
 usemathjax: true
-date: 2020-12-20
-categories: math logic
 ---
 
 I was recently reading George Boole's "Investigation of the Laws of
