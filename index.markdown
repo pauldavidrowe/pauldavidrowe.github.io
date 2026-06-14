@@ -62,12 +62,3 @@ Several preprints and un-refereed manuscripts are stored on [arXiv](https://arxi
 
 
 [GuttmanFest slides](https://pauldavidrowe.github.io/papers/On-orderings-in-security-models.pptx)
-
-
-
-# ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: home
-# ---
