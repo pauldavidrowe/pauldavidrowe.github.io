@@ -20,7 +20,6 @@ kramdown:
   math_engine: katex
 
 header_pages:
-  - publications.md
   - blog.md
   - about.md
   - vibes.md  
