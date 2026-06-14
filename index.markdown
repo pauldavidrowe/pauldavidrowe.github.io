@@ -1,7 +1,6 @@
 ---
-layout: home
+layout: page
 title: "Publications"
-# permalink: /publications
 ---
 
 
