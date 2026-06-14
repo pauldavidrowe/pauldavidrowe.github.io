@@ -1,8 +1,9 @@
 ---
 layout: page
-title: "Boole on Aristotle"
 usemathjax: true
 ---
+
+# Boole on Aristotle
 
 I was recently reading George Boole's "Investigation of the Laws of
 Thought" and I was having trouble replicating one of his
