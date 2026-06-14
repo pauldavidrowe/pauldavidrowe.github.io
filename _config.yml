@@ -22,7 +22,7 @@ kramdown:
 header_pages:
   - blog.md
   - about.md
-  - vibes.md  
+  - vibes.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.
