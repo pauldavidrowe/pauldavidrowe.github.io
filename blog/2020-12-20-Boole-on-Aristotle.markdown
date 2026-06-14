@@ -1,5 +1,6 @@
 ---
 layout: page
+title: Boole on Aristotle
 usemathjax: true
 ---
 
