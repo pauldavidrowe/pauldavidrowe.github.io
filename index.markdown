@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: home
 title: "Publications"
-permalink: /publications
+# permalink: /publications
 ---
 
 
