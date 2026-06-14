@@ -3,8 +3,6 @@ layout: page
 usemathjax: true
 ---
 
-# Boole on Aristotle
-
 I was recently reading George Boole's "Investigation of the Laws of
 Thought" and I was having trouble replicating one of his
 derivations. Since I had trouble finding any explanation online of how
