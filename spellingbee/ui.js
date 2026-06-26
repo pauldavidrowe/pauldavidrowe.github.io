@@ -107,17 +107,11 @@ document.querySelectorAll(".tab").forEach(tab => {
 
 const logWordInput    = $("log-word-input");
 const logWordDropdown = $("log-word-dropdown");
-const logToInput      = $("log-to-input");
-const logToDropdown   = $("log-to-dropdown");
-const assocToGroup    = $("assoc-to-group");
 const logSubmitBtn    = $("log-submit-btn");
 const logFeedback     = $("log-feedback");
-const logWordLabel    = $("log-word-label");
 const wordOptions     = $("word-options");
 const toggleMissed    = $("toggle-missed");
 const toggleValid     = $("toggle-valid");
-
-let currentLogType = "word";
 
 // ── Toggle interdependency ────────────────────────────────────
 // Rule: missed=true requires valid=true (can't miss an invalid word)
@@ -136,7 +130,6 @@ toggleValid.addEventListener("change", () => {
 });
 
 function updateSubmitLabel() {
-  if (currentLogType === "association") return;
   if (toggleMissed.checked) {
     logSubmitBtn.textContent = "Log missed word";
   } else if (!toggleValid.checked) {
@@ -146,32 +139,7 @@ function updateSubmitLabel() {
   }
 }
 
-// ── Type button switching ─────────────────────────────────────
-document.querySelectorAll(".type-btn[data-type]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".type-btn[data-type]").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentLogType = btn.dataset.type;
-
-    const isAssoc = currentLogType === "association";
-    wordOptions.hidden  = isAssoc;
-    assocToGroup.hidden = !isAssoc;
-    logWordLabel.textContent = isAssoc ? "Word (from)" : "Word to log";
-    logSubmitBtn.textContent = isAssoc ? "Add association" : null;
-
-    if (!isAssoc) updateSubmitLabel();
-
-    logWordInput.value = "";
-    logToInput.value = "";
-    logWordDropdown.hidden = true;
-    logToDropdown.hidden = true;
-    logFeedback.hidden = true;
-    logWordInput.focus();
-  });
-});
-
 wireAutocomplete(logWordInput, logWordDropdown);
-wireAutocomplete(logToInput, logToDropdown);
 
 logSubmitBtn.addEventListener("click", () => {
   const word = logWordInput.value.trim().toUpperCase();
@@ -181,49 +149,30 @@ logSubmitBtn.addEventListener("click", () => {
     return;
   }
 
-  if (currentLogType === "word") {
-    const missed  = toggleMissed.checked;
-    const isValid = toggleValid.checked;
+  const missed  = toggleMissed.checked;
+  const isValid = toggleValid.checked;
 
-    if (missed) {
-      SB.logMissedWord(word);  // sets isValid: true, increments missCount
-      const count = SB.lookupWord(word).missCount;
-      showFeedback(logFeedback, `"${word}" logged. Missed ${count}× total.`, "success");
-    } else if (!isValid) {
-      SB.addInvalidWord(word);
-      showFeedback(logFeedback, `"${word}" saved as invalid.`, "success");
-    } else {
-      // Known valid word, not missed — add with missCount 0 and isValid true
-      SB.addKnownWord(word);
-      showFeedback(logFeedback, `"${word}" added to your list.`, "success");
-    }
-
-    logWordInput.value = "";
-    logWordDropdown.hidden = true;
-
-  } else if (currentLogType === "association") {
-    const toWord = logToInput.value.trim().toUpperCase();
-    if (!toWord) {
-      showFeedback(logFeedback, "Please enter the word it reminds you of.", "error");
-      logToInput.focus();
-      return;
-    }
-    SB.addAssociation(word, toWord);
-    showFeedback(logFeedback, `Association saved: ${word} → ${toWord}`, "success");
-    logWordInput.value = "";
-    logToInput.value = "";
-    logWordDropdown.hidden = true;
-    logToDropdown.hidden = true;
+  if (missed) {
+    SB.logMissedWord(word);  // sets isValid: true, increments missCount
+    const count = SB.lookupWord(word).missCount;
+    showFeedback(logFeedback, `"${word}" logged. Missed ${count}× total.`, "success");
+  } else if (!isValid) {
+    SB.addInvalidWord(word);
+    showFeedback(logFeedback, `"${word}" saved as invalid.`, "success");
+  } else {
+    // Known valid word, not missed — add with missCount 0 and isValid true
+    SB.addKnownWord(word);
+    showFeedback(logFeedback, `"${word}" added to your list.`, "success");
   }
 
+  logWordInput.value = "";
+  logWordDropdown.hidden = true;
   logWordInput.focus();
 });
 
 // Allow Enter key to submit
-[logWordInput, logToInput].forEach(input => {
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter") { logSubmitBtn.click(); }
-  });
+logWordInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") { logSubmitBtn.click(); }
 });
 
 // ── EXPLORE PANEL ─────────────────────────────────────────────
@@ -250,9 +199,25 @@ const exploreWordInput    = $("explore-word-input");
 const exploreWordDropdown = $("explore-word-dropdown");
 const lookupResult        = $("lookup-result");
 
-function renderLookupResult(word) {
+// History stack of previously-viewed lookup words, for the back button / swipe.
+let lookupHistory     = [];
+let currentLookupWord = null;
+
+function goBackLookup() {
+  if (!lookupHistory.length) return;
+  const prev = lookupHistory.pop();
+  exploreWordInput.value = prev;
+  renderLookupResult(prev, { isBack: true });
+}
+
+function renderLookupResult(word, { isBack = false } = {}) {
   word = word.trim().toUpperCase();
   if (!word) { lookupResult.hidden = true; return; }
+
+  if (!isBack && currentLookupWord && currentLookupWord !== word) {
+    lookupHistory.push(currentLookupWord);
+  }
+  currentLookupWord = word;
 
   const info = SB.lookupWord(word); // null if word not in list
   const letters = [...new Set(word.split(""))].sort();
@@ -271,19 +236,6 @@ function renderLookupResult(word) {
 
   const notLoggedNote = !info
     ? `<p class="not-logged-note">Not in your list</p>` : "";
-
-  const assocSection = info && info.associations.length > 0
-    ? `<div class="result-section">
-         <div class="result-section-title">Associations</div>
-         <div class="assoc-list">
-           ${info.associations.map(a => `
-             <div class="assoc-item">
-               <span class="assoc-word">${word}</span>
-               <span class="assoc-arrow">→</span>
-               <span class="assoc-word">${a}</span>
-             </div>`).join("")}
-         </div>
-       </div>` : "";
 
   const editSection = info ? `
     <div class="result-section result-actions">
@@ -314,7 +266,11 @@ function renderLookupResult(word) {
       </div>
     </div>` : "";
 
+  const backButton = lookupHistory.length > 0
+    ? `<button class="btn-ghost" id="lookup-back-btn">← Back</button>` : "";
+
   lookupResult.innerHTML = `
+    ${backButton}
     <div class="result-word ${info && !info.isValid ? "invalid" : ""}">${word} ${validityBadge}</div>
     ${notLoggedNote}
     ${missCountRow}
@@ -325,10 +281,13 @@ function renderLookupResult(word) {
       </div>
     </div>
     <div id="cluster-section"></div>
-    ${assocSection}
     ${editSection}
   `;
   lookupResult.hidden = false;
+
+  if (lookupHistory.length > 0) {
+    $("lookup-back-btn").addEventListener("click", goBackLookup);
+  }
 
   // ── Render cluster (called on load and on center letter change) ──
   function renderCluster() {
@@ -400,7 +359,7 @@ function renderLookupResult(word) {
   // ── Delete ──
   if (info) {
     $("delete-word-btn").addEventListener("click", () => {
-      if (!confirm(`Delete "${word}" and all its associations? This cannot be undone.`)) return;
+      if (!confirm(`Delete "${word}"? This cannot be undone.`)) return;
       SB.removeWord(word);
       lookupResult.innerHTML = `<p class="empty-state">"${word}" has been deleted.</p>`;
       exploreWordInput.value = "";
@@ -459,52 +418,29 @@ exploreWordInput.addEventListener("keydown", e => {
   }
 });
 
-// ── Association query ─────────────────────────────────────────
+// ── Swipe-from-left-edge to go back (Word lookup only) ─────────
 
-const assocQueryInput    = $("assoc-query-input");
-const assocQueryDropdown = $("assoc-query-dropdown");
-const assocQueryResult   = $("assoc-query-result");
+let edgeSwipeStartX = null;
+let edgeSwipeStartY = null;
 
-function renderAssocQuery(word) {
-  word = word.trim().toUpperCase();
-  if (!word) { assocQueryResult.hidden = true; return; }
+document.addEventListener("touchstart", e => {
+  const lookupView = $("explore-lookup");
+  if (lookupView.hidden || !lookupHistory.length) { edgeSwipeStartX = null; return; }
+  const t = e.touches[0];
+  edgeSwipeStartX = t.clientX <= 24 ? t.clientX : null;
+  edgeSwipeStartY = t.clientY;
+}, { passive: true });
 
-  const info = SB.lookupWord(word);
-  if (!info || info.associations.length === 0) {
-    assocQueryResult.innerHTML = `<p class="empty-state">No associations recorded from "${word}".</p>`;
-    assocQueryResult.hidden = false;
-    return;
+document.addEventListener("touchend", e => {
+  if (edgeSwipeStartX === null) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - edgeSwipeStartX;
+  const dy = t.clientY - edgeSwipeStartY;
+  edgeSwipeStartX = null;
+  if (dx > 60 && Math.abs(dy) < 40) {
+    goBackLookup();
   }
-
-  assocQueryResult.innerHTML = `
-    <div class="result-section-title" style="margin-bottom:8px">${word} reminds you of:</div>
-    <div class="assoc-list">
-      ${info.associations.map(a => {
-        const aInfo = SB.lookupWord(a);
-        const badge = aInfo && !aInfo.isValid
-          ? `<span class="badge badge-invalid">invalid</span>` : "";
-        return `<div class="assoc-item">
-          <span class="assoc-arrow">→</span>
-          <span class="assoc-word">${a}</span>
-          ${badge}
-        </div>`;
-      }).join("")}
-    </div>
-  `;
-  assocQueryResult.hidden = false;
-}
-
-assocQueryInput.addEventListener("input", () => {
-  const q = assocQueryInput.value.trim().toUpperCase();
-  if (!q) assocQueryResult.hidden = true;
-});
-
-assocQueryInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    assocQueryDropdown.hidden = true;
-    renderAssocQuery(assocQueryInput.value);
-  }
-});
+}, { passive: true });
 
 // ── All words list ────────────────────────────────────────────
 

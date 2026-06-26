@@ -13,28 +13,24 @@
 </head>
 <body>
 
-  <header>
-    <h1>🐝 Bee Tracker</h1>
-  </header>
+  <div class="sticky-top">
+    <header>
+      <h1>🐝 Bee Tracker</h1>
+    </header>
 
-  <!-- Mode tabs -->
-  <nav class="tabs">
-    <button class="tab active" data-tab="log">Log</button>
-    <button class="tab" data-tab="explore">Explore</button>
-  </nav>
+    <!-- Mode tabs -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="log">Log</button>
+      <button class="tab" data-tab="explore">Explore</button>
+    </nav>
+  </div>
 
   <!-- ══════════════════════════════════════════
        LOG PANEL
   ══════════════════════════════════════════ -->
   <section id="panel-log" class="panel active">
 
-    <!-- Entry type selector -->
-    <div class="type-selector">
-      <button class="type-btn active" data-type="word">Word</button>
-      <button class="type-btn" data-type="association">Association</button>
-    </div>
-
-    <!-- Word toggles (visible in Word mode only) -->
+    <!-- Word toggles -->
     <div id="word-options" class="toggle-group">
       <div class="toggle-row">
         <span class="toggle-label">I missed it</span>
@@ -70,24 +66,6 @@
       </div>
     </div>
 
-    <!-- Association "to" field — only visible in association mode -->
-    <div class="input-group" id="assoc-to-group" hidden>
-      <label for="log-to-input">…reminds me of</label>
-      <div class="autocomplete-wrapper">
-        <input
-          type="text"
-          id="log-to-input"
-          class="word-input"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="characters"
-          spellcheck="false"
-          placeholder="Type a word…"
-        />
-        <ul id="log-to-dropdown" class="dropdown" hidden></ul>
-      </div>
-    </div>
-
     <button id="log-submit-btn" class="btn-primary">Add missed word</button>
     <p id="log-feedback" class="feedback" hidden></p>
 
@@ -98,10 +76,9 @@
   ══════════════════════════════════════════ -->
   <section id="panel-explore" class="panel" hidden>
 
-    <!-- Sub-tabs: Lookup vs Associations -->
+    <!-- Sub-tabs: Lookup vs All words -->
     <div class="type-selector">
       <button class="type-btn active" data-explore="lookup">Word lookup</button>
-      <button class="type-btn" data-explore="assoc-query">Associations</button>
       <button class="type-btn" data-explore="all-words">All words</button>
     </div>
 
@@ -124,27 +101,6 @@
         </div>
       </div>
       <div id="lookup-result" class="result-card" hidden></div>
-    </div>
-
-    <!-- ── Association query ── -->
-    <div id="explore-assoc-query" class="explore-view" hidden>
-      <div class="input-group">
-        <label for="assoc-query-input">Find associations from a word</label>
-        <div class="autocomplete-wrapper">
-          <input
-            type="text"
-            id="assoc-query-input"
-            class="word-input"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="characters"
-            spellcheck="false"
-            placeholder="Type a word…"
-          />
-          <ul id="assoc-query-dropdown" class="dropdown" hidden></ul>
-        </div>
-      </div>
-      <div id="assoc-query-result" class="result-card" hidden></div>
     </div>
 
     <!-- ── All words ── -->

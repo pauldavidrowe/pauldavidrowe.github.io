@@ -245,14 +245,19 @@ function allWords() {
 
 /**
  * Returns the full data object as a pretty-printed JSON string.
+ * Associations are no longer a supported feature, so they're omitted
+ * from new exports even though old stored data may still carry them.
  */
 function exportData() {
-  return JSON.stringify(loadData(), null, 2);
+  const { associations, ...data } = loadData();
+  return JSON.stringify(data, null, 2);
 }
 
 /**
  * Replaces all data with the parsed contents of jsonString.
  * Throws if the JSON is invalid or doesn't match expected shape.
+ * Accepts files with or without an `associations` field for
+ * backwards compatibility with older exports.
  */
 function importData(jsonString) {
   let parsed;
@@ -261,8 +266,8 @@ function importData(jsonString) {
   } catch {
     throw new Error("Invalid JSON — could not parse file.");
   }
-  if (typeof parsed.words !== "object" || !Array.isArray(parsed.associations)) {
-    throw new Error("Unrecognized format — file must have 'words' and 'associations'.");
+  if (typeof parsed.words !== "object") {
+    throw new Error("Unrecognized format — file must have a 'words' object.");
   }
   saveData(parsed);
 }
