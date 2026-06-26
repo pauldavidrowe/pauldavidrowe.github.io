@@ -241,6 +241,30 @@ header h1 {
   color: #c0c0c0;
 }
 
+.autocomplete-wrapper .word-input {
+  padding-right: 40px;
+}
+
+.clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.clear-btn:active {
+  background: var(--border);
+}
+
 /* ── Autocomplete dropdown ────────────────────────────────── */
 .dropdown {
   position: absolute;

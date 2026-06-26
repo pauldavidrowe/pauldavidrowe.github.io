@@ -73,6 +73,10 @@ function wireAutocomplete(inputEl, dropdownEl, onSelect) {
   });
 
   inputEl.addEventListener("focus", () => {
+    // Place the cursor at the end rather than wherever it happened to land.
+    const end = inputEl.value.length;
+    inputEl.setSelectionRange(end, end);
+
     const q = inputEl.value.trim();
     if (q) {
       const results = SB.autocomplete(q);
@@ -82,6 +86,24 @@ function wireAutocomplete(inputEl, dropdownEl, onSelect) {
         onSelect && onSelect(word);
       });
     }
+  });
+}
+
+// Wires a "×" clear button next to a text input: visible only when the
+// input has content, clears it and refocuses on click.
+function wireClearButton(inputEl, clearBtn, onClear) {
+  function refreshVisibility() {
+    clearBtn.hidden = !inputEl.value;
+  }
+  inputEl.addEventListener("input", refreshVisibility);
+  refreshVisibility();
+
+  clearBtn.addEventListener("mousedown", e => e.preventDefault()); // keep focus
+  clearBtn.addEventListener("click", () => {
+    inputEl.value = "";
+    refreshVisibility();
+    onClear && onClear();
+    inputEl.focus();
   });
 }
 
@@ -171,7 +193,14 @@ logSubmitBtn.addEventListener("click", () => {
 
 // Allow Enter key to submit
 logWordInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") { logSubmitBtn.click(); }
+  if (e.key === "Enter") {
+    logSubmitBtn.click();
+    logWordInput.blur(); // dismiss the keyboard
+  }
+});
+
+wireClearButton(logWordInput, $("log-word-clear"), () => {
+  logWordDropdown.hidden = true;
 });
 
 // ── EXPLORE PANEL ─────────────────────────────────────────────
@@ -414,7 +443,13 @@ exploreWordInput.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     exploreWordDropdown.hidden = true;
     renderLookupResult(exploreWordInput.value);
+    exploreWordInput.blur(); // dismiss the keyboard
   }
+});
+
+wireClearButton(exploreWordInput, $("explore-word-clear"), () => {
+  exploreWordDropdown.hidden = true;
+  lookupResult.hidden = true;
 });
 
 // ── Swipe gestures ───────────────────────────────────────────
