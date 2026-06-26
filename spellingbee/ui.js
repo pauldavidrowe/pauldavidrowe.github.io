@@ -87,20 +87,19 @@ function wireAutocomplete(inputEl, dropdownEl, onSelect) {
 
 // ── Tab switching ─────────────────────────────────────────────
 
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-
-    const target = tab.dataset.tab;
-    document.querySelectorAll(".panel").forEach(p => {
-      p.hidden = true;
-      p.classList.remove("active");
-    });
-    const panel = $("panel-" + target);
-    panel.hidden = false;
-    panel.classList.add("active");
+function switchTab(target) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === target));
+  document.querySelectorAll(".panel").forEach(p => {
+    p.hidden = true;
+    p.classList.remove("active");
   });
+  const panel = $("panel-" + target);
+  panel.hidden = false;
+  panel.classList.add("active");
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => switchTab(tab.dataset.tab));
 });
 
 // ── LOG PANEL ─────────────────────────────────────────────────
@@ -418,28 +417,98 @@ exploreWordInput.addEventListener("keydown", e => {
   }
 });
 
-// ── Swipe-from-left-edge to go back (Word lookup only) ─────────
+// ── Swipe gestures ───────────────────────────────────────────
+// Two gestures share the same touch listeners:
+//  - "back": swipe right starting from the left edge, while viewing
+//    Word lookup with history — goes back to the previous word.
+//  - "tab": swipe left/right starting from the middle of the screen —
+//    switches between the Log and Explore tabs.
+// Both get a live visual hint that grows/fades with drag progress.
 
-let edgeSwipeStartX = null;
-let edgeSwipeStartY = null;
+const backHint = $("back-swipe-hint");
+const tabHint  = $("tab-swipe-hint");
+
+const BACK_EDGE_ZONE      = 24;  // px from left edge that can start a "back" swipe
+const TAB_EDGE_EXCLUSION  = 40;  // px from either edge excluded from "tab" swipe start
+const SWIPE_THRESHOLD     = 64;  // px of travel needed to trigger the action
+const VERTICAL_TOLERANCE  = 40;  // px of vertical drift still considered "horizontal"
+
+let gesture       = null; // "back" | "tab" | null
+let gestureStartX = 0;
+let gestureStartY = 0;
+
+function setHint(el, progress, glyph) {
+  if (glyph) el.textContent = glyph;
+  el.classList.remove("snapping");
+  el.style.opacity = progress;
+  el.style.transform = `translateY(-50%) scale(${0.75 + progress * 0.35})`;
+}
+
+function resetHint(el) {
+  el.classList.add("snapping");
+  el.style.opacity = 0;
+  el.style.transform = "translateY(-50%) scale(0.75)";
+}
 
 document.addEventListener("touchstart", e => {
-  const lookupView = $("explore-lookup");
-  if (lookupView.hidden || !lookupHistory.length) { edgeSwipeStartX = null; return; }
   const t = e.touches[0];
-  edgeSwipeStartX = t.clientX <= 24 ? t.clientX : null;
-  edgeSwipeStartY = t.clientY;
+  gestureStartX = t.clientX;
+  gestureStartY = t.clientY;
+
+  const lookupView = $("explore-lookup");
+  const canGoBack = !lookupView.hidden && lookupHistory.length > 0;
+
+  if (canGoBack && gestureStartX <= BACK_EDGE_ZONE) {
+    gesture = "back";
+  } else if (gestureStartX > TAB_EDGE_EXCLUSION && gestureStartX < window.innerWidth - TAB_EDGE_EXCLUSION) {
+    gesture = "tab";
+  } else {
+    gesture = null;
+  }
+}, { passive: true });
+
+document.addEventListener("touchmove", e => {
+  if (!gesture) return;
+  const t = e.touches[0];
+  const dx = t.clientX - gestureStartX;
+  const dy = t.clientY - gestureStartY;
+  if (Math.abs(dy) > Math.abs(dx)) return; // too vertical to be this gesture
+
+  if (gesture === "back") {
+    if (dx <= 0) { resetHint(backHint); return; }
+    setHint(backHint, Math.min(dx / SWIPE_THRESHOLD, 1));
+  } else if (gesture === "tab") {
+    if (Math.abs(dx) < 8) { resetHint(tabHint); return; }
+    const goingNext = dx < 0; // finger moving left → advance to next tab
+    const currentTab = document.querySelector(".tab.active").dataset.tab;
+    const willMove = (goingNext && currentTab === "log") || (!goingNext && currentTab === "explore");
+    const progress = willMove ? Math.min(Math.abs(dx) / SWIPE_THRESHOLD, 1) : 0;
+    tabHint.style.left  = goingNext ? "auto" : "16px";
+    tabHint.style.right = goingNext ? "16px" : "auto";
+    setHint(tabHint, progress, goingNext ? "›" : "‹");
+  }
 }, { passive: true });
 
 document.addEventListener("touchend", e => {
-  if (edgeSwipeStartX === null) return;
+  if (!gesture) return;
   const t = e.changedTouches[0];
-  const dx = t.clientX - edgeSwipeStartX;
-  const dy = t.clientY - edgeSwipeStartY;
-  edgeSwipeStartX = null;
-  if (dx > 60 && Math.abs(dy) < 40) {
+  const dx = t.clientX - gestureStartX;
+  const dy = t.clientY - gestureStartY;
+
+  if (gesture === "back" && dx > SWIPE_THRESHOLD && Math.abs(dy) < VERTICAL_TOLERANCE) {
     goBackLookup();
+  } else if (gesture === "tab" && Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dy) < VERTICAL_TOLERANCE) {
+    const currentTab = document.querySelector(".tab.active").dataset.tab;
+    if (dx < 0 && currentTab === "log") {
+      switchTab("explore");
+    } else if (dx > 0 && currentTab === "explore") {
+      switchTab("log");
+    }
   }
+
+  resetHint(backHint);
+  resetHint(tabHint);
+  gesture = null;
 }, { passive: true });
 
 // ── All words list ────────────────────────────────────────────

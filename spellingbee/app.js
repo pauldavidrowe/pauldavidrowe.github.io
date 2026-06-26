@@ -7,10 +7,7 @@
 //   words: {
 //     "COCA": { missCount: 3, isValid: true },
 //     "GOOGLE": { missCount: 0, isValid: false }
-//   },
-//   associations: [
-//     { from: "GOOGLE", to: "GOOGOL" }
-//   ]
+//   }
 // }
 //
 // Clusters are NOT stored — computed on the fly by sorting each
@@ -24,10 +21,10 @@ const STORAGE_KEY = "spellingbee";
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { words: {}, associations: [] };
+    if (!raw) return { words: {} };
     return JSON.parse(raw);
   } catch {
-    return { words: {}, associations: [] };
+    return { words: {} };
   }
 }
 
@@ -91,30 +88,6 @@ function addInvalidWord(word) {
 }
 
 /**
- * Add a directional association: from → to.
- * Both words are added to the word list if not already present
- * (as valid words with missCount 0, since we don't know their status yet).
- * Duplicate associations are ignored.
- */
-function addAssociation(fromWord, toWord) {
-  fromWord = normalize(fromWord);
-  toWord = normalize(toWord);
-  if (!fromWord || !toWord || fromWord === toWord) return;
-  const data = loadData();
-
-  // Ensure both words exist in the word list
-  if (!data.words[fromWord]) data.words[fromWord] = { missCount: 0, isValid: true };
-  if (!data.words[toWord])   data.words[toWord]   = { missCount: 0, isValid: true };
-
-  // Avoid duplicates
-  const exists = data.associations.some(a => a.from === fromWord && a.to === toWord);
-  if (!exists) {
-    data.associations.push({ from: fromWord, to: toWord });
-  }
-  saveData(data);
-}
-
-/**
  * Add a known valid word that hasn't been missed.
  * If the word already exists, marks it valid but does NOT touch missCount.
  * If new, adds it with missCount: 0 and isValid: true.
@@ -152,26 +125,12 @@ function updateWord(word, { missCount, isValid } = {}) {
 }
 
 /**
- * Remove a word and all associations involving it.
+ * Remove a word.
  */
 function removeWord(word) {
   word = normalize(word);
   const data = loadData();
   delete data.words[word];
-  data.associations = data.associations.filter(a => a.from !== word && a.to !== word);
-  saveData(data);
-}
-
-/**
- * Remove a specific association.
- */
-function removeAssociation(fromWord, toWord) {
-  fromWord = normalize(fromWord);
-  toWord = normalize(toWord);
-  const data = loadData();
-  data.associations = data.associations.filter(
-    a => !(a.from === fromWord && a.to === toWord)
-  );
   saveData(data);
 }
 
@@ -181,8 +140,7 @@ function removeAssociation(fromWord, toWord) {
  * Returns info about a single word, or null if not found.
  * {
  *   word, missCount, isValid,
- *   cluster: { key, members: ["COCA", "CACAO", "COCOA"] },
- *   associations: ["GOOGOL"]   // words this word points to
+ *   cluster: { key, members: ["COCA", "CACAO", "COCOA"] }
  * }
  */
 function lookupWord(word) {
@@ -197,16 +155,11 @@ function lookupWord(word) {
     [...new Set(w.split(""))].every(l => wordLetters.has(l))
   ).sort();
 
-  const associations = data.associations
-    .filter(a => a.from === word)
-    .map(a => a.to);
-
   return {
     word,
     missCount: entry.missCount,
     isValid: entry.isValid,
     cluster: { key, members: clusterMembers },
-    associations,
   };
 }
 
@@ -245,19 +198,14 @@ function allWords() {
 
 /**
  * Returns the full data object as a pretty-printed JSON string.
- * Associations are no longer a supported feature, so they're omitted
- * from new exports even though old stored data may still carry them.
  */
 function exportData() {
-  const { associations, ...data } = loadData();
-  return JSON.stringify(data, null, 2);
+  return JSON.stringify(loadData(), null, 2);
 }
 
 /**
  * Replaces all data with the parsed contents of jsonString.
  * Throws if the JSON is invalid or doesn't match expected shape.
- * Accepts files with or without an `associations` field for
- * backwards compatibility with older exports.
  */
 function importData(jsonString) {
   let parsed;
@@ -300,10 +248,8 @@ window.SpellingBee = {
   logMissedWord,
   addInvalidWord,
   addKnownWord,
-  addAssociation,
   updateWord,
   removeWord,
-  removeAssociation,
   lookupWord,
   computeCluster,
   autocomplete,

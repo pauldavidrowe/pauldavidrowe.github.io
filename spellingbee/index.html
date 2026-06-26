@@ -69,6 +69,13 @@
     <button id="log-submit-btn" class="btn-primary">Add missed word</button>
     <p id="log-feedback" class="feedback" hidden></p>
 
+    <!-- Data management — only relevant right after logging words -->
+    <div class="data-actions">
+      <button class="btn-secondary" id="export-btn">Export</button>
+      <button class="btn-secondary" id="import-btn">Import</button>
+      <input type="file" id="import-file-input" accept=".json" hidden />
+    </div>
+
   </section>
 
   <!-- ══════════════════════════════════════════
@@ -129,14 +136,9 @@
 
   </section>
 
-  <!-- ══════════════════════════════════════════
-       DATA MANAGEMENT (bottom of screen)
-  ══════════════════════════════════════════ -->
-  <footer>
-    <button class="btn-secondary" id="export-btn">Export</button>
-    <button class="btn-secondary" id="import-btn">Import</button>
-    <input type="file" id="import-file-input" accept=".json" hidden />
-  </footer>
+  <!-- Swipe gesture visual cues -->
+  <div id="back-swipe-hint" class="swipe-hint swipe-hint-left" aria-hidden="true">‹</div>
+  <div id="tab-swipe-hint" class="swipe-hint" aria-hidden="true">›</div>
 
   <script src="app.js"></script>
   <script src="ui.js"></script>
