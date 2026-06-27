@@ -1,0 +1,208 @@
+{
+  "id": 7,
+  "url": "https://realandvibrant.com/pesto-pasta-salad/?utm_source=Pinterest&utm_medium=organic",
+  "title": "Pesto Pasta Salad",
+  "servings": "8",
+  "scraped_at": "2026-06-26T22:21:35.651892",
+  "scale_factor": 1.0,
+  "recipe_text": "Recipe: Pesto Pasta Salad\nYield: 8\nPrep time: 10m\nCook time: 20m\nTotal time: 30m\n\nIngredients:\n  - 1 pound pasta (such as cavatelli or penne )\n  - 1 cup cherry tomatoes (halved)\n  - 8 oz fresh mozzarella (cut into small bite-sized pieces)\n  - 1/2 cup finely chopped red onion\n  - 1/4 cup chopped pepperoncini\n  - 1/4 cup finely chopped parsley\n  - 3 cups basil leaves\n  - 1/2 cup olive oil\n  - 1/3 cup pine nuts\n  - 1/3 cup grated parmesan cheese\n  - 1 tablespoon lemon juice\n  - 2 cloves garlic\n  - 1 teaspoon sea salt\n  - 1/4 teaspoon black pepper\n\nInstructions:\n  1. Cook the pasta. Bring a large pot of salted water to a boil. Add pasta and cook until tender. Be sure to check the package for recommended cook time. Drain and rinse well under cold water.\n  2. Make the pesto. While the pasta cooks, prepare the basil pesto. In a food processor, combine the fresh basil, pine nuts, parmesan cheese, olive oil, garlic, lemon juice, salt, and pepper. Process until smooth and creamy. Scoop out of the food processor and set aside.\n  3. Assemble the pasta salad. In a large bowl, combine noodles, pesto, cherry tomatoes, mozzarella, pepperoncini, and parsley. Toss until it&#039;s well combined. Taste and adjust seasoning, if needed.\n\nDescription: Whether you’re looking for a refreshing lunch or a dish to bring to a potluck, this pesto pasta salad is delicious and easy to make. Made with basil pesto tossed in perfectly cooked pasta noodles, this recipe comes together in under 30 minutes!",
+  "tags": [],
+  "ingredients": [
+    {
+      "name": "pasta",
+      "quantity": "1",
+      "unit": "pound",
+      "preparation_note": "such as cavatelli or penne"
+    },
+    {
+      "name": "cherry tomatoes",
+      "quantity": "1",
+      "unit": "cup",
+      "preparation_note": "halved"
+    },
+    {
+      "name": "fresh mozzarella",
+      "quantity": "8",
+      "unit": "oz",
+      "preparation_note": "cut into small bite-sized pieces"
+    },
+    {
+      "name": "red onion",
+      "quantity": "1/2",
+      "unit": "cup",
+      "preparation_note": "finely chopped"
+    },
+    {
+      "name": "parsley",
+      "quantity": "1/4",
+      "unit": "cup",
+      "preparation_note": "finely chopped"
+    },
+    {
+      "name": "pesto",
+      "quantity": "1",
+      "unit": "jar",
+      "preparation_note": null
+    }
+  ],
+  "steps": [
+    {
+      "id": 357,
+      "position": 1,
+      "raw_text": "Bring a large pot of salted water to a boil.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 8.0,
+      "time_source": "estimated",
+      "equipment": "large pot",
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "water"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 358,
+      "position": 2,
+      "raw_text": "Halve 1 cup cherry tomatoes.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "1 cup cherry tomatoes"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 359,
+      "position": 3,
+      "raw_text": "Cut 8 oz fresh mozzarella into small bite-sized pieces.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "8 oz fresh mozzarella"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 360,
+      "position": 4,
+      "raw_text": "Finely chop 1/2 cup red onion.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "1/2 cup red onion"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 361,
+      "position": 5,
+      "raw_text": "Add 1 pound pasta to the boiling water and cook until tender, checking the package for recommended cook time.",
+      "category": "cook",
+      "attention": "hands_free",
+      "time_min": 10.0,
+      "time_source": "estimated",
+      "equipment": "large pot",
+      "image_url": null,
+      "deps": [
+        1
+      ],
+      "ingredients_used": [
+        "1 pound pasta"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 362,
+      "position": 6,
+      "raw_text": "Finely chop 1/4 cup parsley.",
+      "category": "prep",
+      "attention": "hands_on",
+      "time_min": 2.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [],
+      "ingredients_used": [
+        "1/4 cup parsley"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 363,
+      "position": 7,
+      "raw_text": "Drain the pasta and rinse well under cold water.",
+      "category": "cook",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": "colander",
+      "image_url": null,
+      "deps": [
+        5
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    },
+    {
+      "id": 364,
+      "position": 8,
+      "raw_text": "In a large bowl, combine the cooked pasta, pesto, halved cherry tomatoes, mozzarella, finely chopped red onion, and parsley. Toss until well combined.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 3.0,
+      "time_source": "estimated",
+      "equipment": "large bowl",
+      "image_url": null,
+      "deps": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "ingredients_used": [
+        "1 pound pasta",
+        "pesto",
+        "1 cup cherry tomatoes",
+        "8 oz fresh mozzarella",
+        "1/2 cup red onion",
+        "1/4 cup pepperoncini",
+        "1/4 cup parsley"
+      ],
+      "timing": "jit"
+    },
+    {
+      "id": 365,
+      "position": 9,
+      "raw_text": "Taste and adjust seasoning if needed.",
+      "category": "assembly",
+      "attention": "hands_on",
+      "time_min": 1.0,
+      "time_source": "estimated",
+      "equipment": null,
+      "image_url": null,
+      "deps": [
+        8
+      ],
+      "ingredients_used": [],
+      "timing": "jit"
+    }
+  ]
+}
