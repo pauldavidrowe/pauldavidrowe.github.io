@@ -5,7 +5,7 @@ title: "Publications"
 
 
 ## Refereed Journal Publications
-1. Suresh K. Damodaran and Paul D. Rowe. 2026. **Automated Repeatable Adversary Threat Emulation with Effects Language (EL)**. To appear. [(preprint)](https://arxiv.org/pdf/2510.06420)
+1. Suresh K. Damodaran and Paul D. Rowe. 2026. [**Automated Repeatable Adversary Threat Emulation with Effects Language (EL)**](https://doi.org/10.1145/3816043). Digital Threats 7, 3, Article 15 (September 2026), 37 pages. https://doi.org/10.1145/3816043
 1. Sarah C. Helble, Ian D. Kretz, Peter A. Loscocco, John D. Ramsdell, Paul D. Rowe, and Perry Alexander. 2021. [**Flexible Mechanisms for Remote Attestation**](https://doi.org/10.1145/3470535). <i>ACM Trans. Priv. Secur.</i> 24, 4, Article 29 (November 2021), 23 pages. [(preprint)](https://pauldavidrowe.github.io/papers/flexible-mech.pdf)  
 1. Joshua D. Guttman, Moses D. Liskov and Paul D. Rowe. [**Measuring Protocol Strength with Security Goals**](http://link.springer.com/article/10.1007/s10207-016-0319-z). *International Journal of Information Security*. (2016) 15(6):575-596. [(preprint)](https://pauldavidrowe.github.io/papers/meas-strength.pdf)  
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Confidentiality**](http://rd.springer.com/article/10.1007%2Fs10817-010-9190-1). *Journal of Automated Reasoning* 46 (3-4) (2011) 389-421. [(preprint)](https://pauldavidrowe.github.io/papers/cpwc.pdf) 
