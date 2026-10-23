@@ -15,6 +15,7 @@ title: "Publications"
 
 ### 2020s:
 
+1. Lauren Brandt, Andres Molina-Markham, Paul D. Rowe, Antonia Januszewicz. 2026. **Large Language Models to Improve Cryptographic Protocols**. To appear.
 1. Will Thomas, Logan Schmalz, Adam Petz, Perry Alexander, Joshua D. Guttman, Paul D. Rowe, James Carter. 2026. **Designing Trustworthy Layered Attestations**. To appear. 
 1. Ian D. Kretz, Paul D. Rowe, Clare C. Parran, and John D. Ramsdell. 2024. [**Evidence Tampering and Chain of Custody in Layered Attestations**](https://dl.acm.org/doi/pdf/10.1145/3678232.3678244). In *Proceedings of the 26th International Symposium on Principles and Practice of Declarative Programming* (*PPDP '24*). Association for Computing Machinery, New York, NY, USA, Article 14, 1–11. [(preprint)](https://pauldavidrowe.github.io/papers/tampering.pdf)
 1. Paul D. Rowe. 2021. [**On Orderings in Security Models**](https://link.springer.com/chapter/10.1007%2F978-3-030-91631-2_21). *Protocols, Strands, and Logic: Essays dedicated to Joshua Guttman on the Occasion of his 66.66 Birthday*. Lecture Notes in Computer Science, vol 13066. Springer, Cham. [(preprint)](https://pauldavidrowe.github.io/papers/attacktrees-copland.pdf)
@@ -23,7 +24,7 @@ title: "Publications"
 
 ### 2010s:
 
-{:start="6"}
+{:start="7"}
 1. Paul D. Rowe, J. Cory Miniter, Michael D. Norman. [**On the Sensitivity of Cyber Assessment Methodologies**](http://ebooks.iospress.nl/volumearticle/53731). In *Resilience and Hybrid Threats*, Igor Linkov, Lada Roslycky, Benjamin D. Trump, eds. IOS Press. November, 2019. [(preprint)](https://pauldavidrowe.github.io/papers/sensitivity.pdf)  
 1. Heimir Thorisson, Fabrizio Baiardi, David G. Angeler, Kuldar Taveter, Ashok Vasheasta, Paul D. Rowe, Wojciech Piotrowicz, Thomas L. Polmateer, James H. Lambert, Igor Linkov. [**Resilience of Critical Infrastructure Systems to Hybrid Threats with Information Disruption**](http://ebooks.iospress.nl/volumearticle/53727). In *Resilience and Hybrid Threats*, Igor Linkov, Lada Roslycky, Benjamin D. Trump, eds. IOS Press. November, 2019. [(preprint)](https://pauldavidrowe.github.io/papers/hybrid-threats.pdf)  
 1. Moses D. Liskov, Joshua D. Guttman, John D. Ramsdell, Paul D. Rowe, F. Javier Thayer. [**Enrich-by-Need Protocol Analysis for Diffie-Hellman**](https://link.springer.com/chapter/10.1007%2F978-3-030-19052-1_10). *Foundations of Security, Protocols, and Equational Reasoning* 2019: 135-155. [(preprint)](https://pauldavidrowe.github.io/papers/ebn-dh.pdf)  
@@ -42,7 +43,7 @@ title: "Publications"
 
 ### 2000s:
 
-{:start="21"}
+{:start="22"}
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Policy Compliance in Collaborative Systems**](https://www.computer.org/csdl/proceedings/csf/2009/3712/00/3712a218-abs.html). *IEEE Symposium on Computer Security Foundations*. July 2009. [(preprint)](https://pauldavidrowe.github.io/papers/pccs.pdf)  
 1. John C. Mitchell, Arnab Roy, Paul Rowe and Andre Scedrov. [**Analysis of EAP-GPSK Authentication Protocol**](http://rd.springer.com/chapter/10.1007%2F978-3-540-68914-0_19). *International Conference on Applied Cryptography and Network Security* (ACNS’08). Springer LNCS 5037. June, 2008. [(preprint)](https://pauldavidrowe.github.io/papers/eap-gpsk.pdf)  
 1. Max Kanovich, Paul Rowe and Andre Scedrov. [**Collaborative Planning with Privacy**](https://www.computer.org/csdl/proceedings/csf/2007/2819/00/28190265-abs.html). *IEEE Symposium on Computer Security Foundations*. July 2007. [(preprint)](https://pauldavidrowe.github.io/papers/cpwp.pdf)
