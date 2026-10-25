@@ -155,7 +155,14 @@
   // preview mode (used for the target peek); false is normal gameplay.
   // scrollY, if given, is restored once the frame finishes loading.
   function loadArticleIntoFrame(article, { preview = false, scrollY = 0 } = {}) {
-    articleFrame.srcdoc = buildFrameDoc(article);
+    // Written in place via document.write(), not a srcdoc/src reassignment.
+    // Those are real navigations of the iframe, which some browsers fold
+    // into the page's own back/forward history — document.write() replaces
+    // the content without creating a history entry.
+    const doc = articleFrame.contentDocument;
+    doc.open();
+    doc.write(buildFrameDoc(article));
+    doc.close();
     activeHeadings = article.headings || [];
     articleArea.hidden = false;
     playLoading.hidden = true;
@@ -169,7 +176,9 @@
     if (!preview) liveArticle = article;
   }
 
-  // Attached once; fires on every srcdoc load, including reloads.
+  // Attached once; fires on every document.write() in loadArticleIntoFrame
+  // (confirmed: the iframe's load event still fires for this, same as it
+  // did for srcdoc reassignment).
   articleFrame.addEventListener("load", () => {
     const doc = articleFrame.contentDocument;
     if (!doc) return;
@@ -330,14 +339,19 @@
   // then, normal scrolling behaves exactly as it always would.
   const SWIPE_MAX_DRAG = 110;
   const SWIPE_COMMIT_THRESHOLD = 70;
-  const SWIPE_ENGAGE_THRESHOLD = 12;
-  let swipeState = null; // { startX, startY, engaged } while a touch is active
+  // Decide from the very first meaningful movement sample, not after
+  // accumulating distance. iOS's native scroll/bounce handling can commit
+  // to a touch within the first few pixels of movement — if we wait too
+  // long to decide "this is our gesture" and call preventDefault(), native
+  // handling has already won the race and our drag never visibly starts.
+  const SWIPE_DECIDE_THRESHOLD = 4;
+  let swipeState = null; // { startX, startY, engaged, decided } while a touch is active
 
   function swipeTouchStart(e) {
     if (inPreviewMode) return;
     if (!WikiRace.getCurrentGame()) return;
     const t = e.touches[0];
-    swipeState = { startX: t.clientX, startY: t.clientY, engaged: false };
+    swipeState = { startX: t.clientX, startY: t.clientY, engaged: false, decided: false };
   }
 
   function swipeTouchMove(e) {
@@ -346,8 +360,14 @@
     const dx = t.clientX - swipeState.startX;
     const dy = t.clientY - swipeState.startY;
 
+    if (swipeState.decided && !swipeState.engaged) return; // confirmed not ours — leave scrolling alone
+
     if (!swipeState.engaged) {
-      if (dx < SWIPE_ENGAGE_THRESHOLD || Math.abs(dy) > dx * 0.6) return; // let scrolling happen
+      if (Math.abs(dx) < SWIPE_DECIDE_THRESHOLD && Math.abs(dy) < SWIPE_DECIDE_THRESHOLD) return; // not enough signal yet
+      if (dx <= 0 || Math.abs(dy) > dx * 0.6) {
+        swipeState.decided = true;
+        return;
+      }
       swipeState.engaged = true;
       const game = WikiRace.getCurrentGame();
       const canBack = game.path.length > 1;
