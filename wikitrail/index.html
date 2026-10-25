@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="WikiTrail" />
+  <meta name="description" content="Find a path from one random Wikipedia article to another, using only the links inside each page." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>WikiTrail</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="sticky-top">
+    <header>
+      <h1>🧭 WikiTrail</h1>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="play">Play</button>
+      <button class="tab" data-tab="history">History</button>
+      <button class="tab" data-tab="explore">Explore</button>
+    </nav>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PLAY PANEL
+  ══════════════════════════════════════════ -->
+  <section id="panel-play" class="panel active">
+
+    <div id="game-banner" class="game-banner" hidden>
+      <div class="banner-row">
+        <span class="banner-article" id="banner-start"></span>
+        <span class="banner-arrow">→</span>
+        <button type="button" class="banner-article banner-target-btn" id="banner-target" aria-label="Preview target article"></button>
+      </div>
+      <div class="banner-meta">
+        <span class="banner-meta-left">
+          <button id="toc-btn" class="icon-btn" aria-label="Table of contents">☰</button>
+          <span id="banner-links"></span>
+        </span>
+        <span class="banner-actions">
+          <button id="back-btn" class="icon-btn" aria-label="Undo last move" hidden>←</button>
+          <button id="give-up-btn" class="btn-text">Give up</button>
+        </span>
+      </div>
+    </div>
+
+    <div id="path-trail" class="path-trail" hidden></div>
+
+    <div id="play-empty" class="empty-state">
+      <p>Find a path from one random Wikipedia article to another, using only the links inside each article.</p>
+      <button id="new-game-btn" class="btn-primary">New Game</button>
+    </div>
+
+    <div id="play-loading" class="loading" hidden><p>Loading…</p></div>
+
+    <div id="article-area" class="article-area" hidden>
+      <div id="back-peek" class="back-peek" hidden>
+        <span class="back-peek-arrow">←</span>
+        <span id="back-peek-title" class="back-peek-title"></span>
+      </div>
+      <div id="article-wrap" class="article-wrap">
+        <div id="preview-banner" class="preview-banner" hidden>
+          <span>👁 Previewing target — links are disabled</span>
+          <button id="preview-close-btn" class="btn-text">Back to game</button>
+        </div>
+        <iframe id="article-frame" title="Wikipedia article" sandbox="allow-same-origin" referrerpolicy="no-referrer"></iframe>
+      </div>
+      <div id="edge-swipe-zone"></div>
+    </div>
+
+    <p id="play-toast" class="toast" hidden></p>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       HISTORY PANEL
+  ══════════════════════════════════════════ -->
+  <section id="panel-history" class="panel" hidden>
+    <div class="stats-summary" id="stats-summary"></div>
+    <div class="hubs" id="stats-hubs"></div>
+    <div id="history-list" class="history-list"></div>
+
+    <div class="data-actions">
+      <button class="btn-secondary" id="export-btn">Export</button>
+      <button class="btn-secondary" id="import-btn">Import</button>
+      <input type="file" id="import-file-input" accept=".json" hidden />
+      <button class="btn-secondary btn-danger" id="clear-btn">Clear history</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       EXPLORE PANEL — a plain Wikipedia browser,
+       no connection to game state at all.
+  ══════════════════════════════════════════ -->
+  <section id="panel-explore" class="panel" hidden>
+    <div class="explore-toolbar">
+      <button id="explore-home-btn" class="btn-secondary">🏠 Home</button>
+      <button id="explore-random-btn" class="btn-secondary">🎲 Random</button>
+    </div>
+    <iframe id="explore-frame" title="Wikipedia" class="explore-frame"></iframe>
+  </section>
+
+  <!-- Table of contents drawer -->
+  <div id="toc-backdrop" class="drawer-backdrop"></div>
+  <aside id="toc-drawer" class="drawer">
+    <div class="drawer-header">
+      <h2>Contents</h2>
+      <button id="toc-close-btn" class="icon-btn" aria-label="Close">✕</button>
+    </div>
+    <nav id="toc-list" class="toc-list"></nav>
+  </aside>
+
+  <!-- Win / give-up result modal -->
+  <div id="result-modal" class="modal-overlay" hidden>
+    <div class="modal">
+      <h2 id="result-title"></h2>
+      <p id="result-summary"></p>
+      <div id="result-path" class="result-path"></div>
+      <div class="modal-actions">
+        <button id="result-again-btn" class="btn-primary">Play Again</button>
+        <button id="result-close-btn" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="ui.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js").catch(console.warn);
+    }
+  </script>
+</body>
+</html>
