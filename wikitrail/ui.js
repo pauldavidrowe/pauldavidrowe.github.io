@@ -22,6 +22,7 @@
   const bannerLinks = el("banner-links");
   const backBtn = el("back-btn");
   const tocBtn = el("toc-btn");
+  const giveUpBtn = el("give-up-btn");
   const pathTrail = el("path-trail");
   const playEmpty = el("play-empty");
   const playLoading = el("play-loading");
@@ -31,7 +32,6 @@
   const previewBanner = el("preview-banner");
   const backPeek = el("back-peek");
   const backPeekTitle = el("back-peek-title");
-  const edgeSwipeZone = el("edge-swipe-zone");
   const playToast = el("play-toast");
 
   const resultModal = el("result-modal");
@@ -81,9 +81,17 @@
     toastTimer = setTimeout(() => { playToast.hidden = true; }, 2200);
   }
 
+  // Disabling these while a fetch is in flight closes a real race: without
+  // it, tapping TOC/Back/Give-up between a link click and that article's
+  // fetch resolving reads state (activeHeadings, game.path) that still
+  // belongs to the article being left, not the one being loaded.
   function setLoading(isLoading) {
     playLoading.hidden = !isLoading;
     if (isLoading) articleArea.hidden = true;
+    tocBtn.disabled = isLoading;
+    backBtn.disabled = isLoading;
+    giveUpBtn.disabled = isLoading;
+    bannerTarget.disabled = isLoading;
   }
 
   function canGoBackNow() {
@@ -130,7 +138,7 @@
 <base href="https://en.wikipedia.org/wiki/">
 <link rel="stylesheet" href="https://en.wikipedia.org/w/load.php?lang=en&modules=site.styles&only=styles&skin=vector-2022">
 <style>
-  body { margin: 16px; font-family: sans-serif; font-size: 16px; line-height: 1.5; }
+  body { margin: 16px; font-family: sans-serif; font-size: 16px; line-height: 1.5; touch-action: pan-y; }
   .mw-editsection { display: none; }
   table.infobox { float: none; width: 100%; margin: 1em 0; }
   img { max-width: 100%; height: auto; }
@@ -156,7 +164,6 @@
     inPreviewMode = preview;
     articleWrap.classList.toggle("preview-mode", preview);
     previewBanner.hidden = !preview;
-    edgeSwipeZone.style.visibility = preview ? "hidden" : "visible";
     backBtn.hidden = preview || !canGoBackNow();
 
     if (!preview) liveArticle = article;
@@ -187,6 +194,10 @@
         showToast("That link won't help you here.");
       }
     }, true);
+    doc.addEventListener("touchstart", swipeTouchStart, { passive: true });
+    doc.addEventListener("touchmove", swipeTouchMove, { passive: false });
+    doc.addEventListener("touchend", swipeTouchEnd);
+    doc.addEventListener("touchcancel", swipeTouchCancel);
   });
 
   async function handleLinkClick(title, linkText) {
@@ -256,7 +267,7 @@
   }
 
   el("new-game-btn").addEventListener("click", handleNewGame);
-  el("give-up-btn").addEventListener("click", handleGiveUp);
+  giveUpBtn.addEventListener("click", handleGiveUp);
 
   // ---------- target preview ----------
 
@@ -306,41 +317,55 @@
 
   backBtn.addEventListener("click", handleBack);
 
-  // Edge swipe-to-go-back: drag from the left 22px of the screen. The
-  // article slides with the finger and a "back peek" panel shows behind
-  // it, so there's visible feedback the gesture registered even before
-  // it's released.
+  // Swipe-to-go-back: a clearly-horizontal rightward drag anywhere in the
+  // article. Deliberately NOT anchored to the screen edge — iOS Safari
+  // reserves the outermost strip of the screen for its own back gesture
+  // and reliably steals edge-originating touches before our JS sees the
+  // rest of them, no matter what preventDefault() we call. Listening on
+  // the article itself instead sidesteps that entirely.
+  //
+  // Disambiguated from normal scrolling: we don't commit to this being
+  // "our" gesture (and don't preventDefault) until the drag is clearly
+  // more horizontal than vertical and past a small threshold — until
+  // then, normal scrolling behaves exactly as it always would.
   const SWIPE_MAX_DRAG = 110;
   const SWIPE_COMMIT_THRESHOLD = 70;
-  let swipeActive = false;
-  let swipeStartX = 0;
+  const SWIPE_ENGAGE_THRESHOLD = 12;
+  let swipeState = null; // { startX, startY, engaged } while a touch is active
 
-  edgeSwipeZone.addEventListener("touchstart", (e) => {
+  function swipeTouchStart(e) {
     if (inPreviewMode) return;
-    const game = WikiRace.getCurrentGame();
-    if (!game) return;
-    swipeActive = true;
-    swipeStartX = e.touches[0].clientX;
-    const canBack = game.path.length > 1;
-    backPeekTitle.textContent = canBack
-      ? `Back to "${game.path[game.path.length - 2].title}"`
-      : "You're at the start";
-    backPeek.hidden = false;
-    backPeek.style.opacity = "0";
-    articleWrap.style.transition = "none";
-  }, { passive: true });
+    if (!WikiRace.getCurrentGame()) return;
+    const t = e.touches[0];
+    swipeState = { startX: t.clientX, startY: t.clientY, engaged: false };
+  }
 
-  edgeSwipeZone.addEventListener("touchmove", (e) => {
-    if (!swipeActive) return;
-    const dx = e.touches[0].clientX - swipeStartX;
-    if (dx <= 0) return;
+  function swipeTouchMove(e) {
+    if (!swipeState) return;
+    const t = e.touches[0];
+    const dx = t.clientX - swipeState.startX;
+    const dy = t.clientY - swipeState.startY;
+
+    if (!swipeState.engaged) {
+      if (dx < SWIPE_ENGAGE_THRESHOLD || Math.abs(dy) > dx * 0.6) return; // let scrolling happen
+      swipeState.engaged = true;
+      const game = WikiRace.getCurrentGame();
+      const canBack = game.path.length > 1;
+      backPeekTitle.textContent = canBack
+        ? `Back to "${game.path[game.path.length - 2].title}"`
+        : "You're at the start";
+      backPeek.hidden = false;
+      backPeek.style.opacity = "0";
+      articleWrap.style.transition = "none";
+    }
+
     e.preventDefault();
     const canBack = canGoBackNow();
     const max = canBack ? SWIPE_MAX_DRAG : 24; // resistance when there's nowhere to go
-    const clamped = Math.min(dx, max);
+    const clamped = Math.min(Math.max(dx, 0), max);
     articleWrap.style.transform = `translateX(${clamped}px)`;
     backPeek.style.opacity = String(Math.min(clamped / SWIPE_MAX_DRAG, 1));
-  }, { passive: false });
+  }
 
   function endSwipe(commit) {
     articleWrap.style.transition = "transform .2s ease";
@@ -358,18 +383,21 @@
     }
   }
 
-  edgeSwipeZone.addEventListener("touchend", (e) => {
-    if (!swipeActive) return;
-    swipeActive = false;
-    const dx = e.changedTouches[0].clientX - swipeStartX;
+  function swipeTouchEnd(e) {
+    if (!swipeState) return;
+    const engaged = swipeState.engaged;
+    const dx = e.changedTouches[0].clientX - swipeState.startX;
+    swipeState = null;
+    if (!engaged) return;
     endSwipe(canGoBackNow() && dx >= SWIPE_COMMIT_THRESHOLD);
-  });
+  }
 
-  edgeSwipeZone.addEventListener("touchcancel", () => {
-    if (!swipeActive) return;
-    swipeActive = false;
-    endSwipe(false);
-  });
+  function swipeTouchCancel() {
+    if (!swipeState) return;
+    const engaged = swipeState.engaged;
+    swipeState = null;
+    if (engaged) endSwipe(false);
+  }
 
   // ---------- table of contents drawer ----------
 
@@ -527,8 +555,8 @@
     exploreLoaded = true;
   }
 
-  el("explore-home-btn").addEventListener("click", () => {
-    exploreFrame.src = "https://en.m.wikipedia.org/";
+  el("explore-search-btn").addEventListener("click", () => {
+    exploreFrame.src = "https://en.m.wikipedia.org/wiki/Special:Search";
   });
 
   el("explore-random-btn").addEventListener("click", () => {
@@ -538,6 +566,7 @@
   // ---------- init ----------
 
   async function init() {
+    ensureExploreLoaded(); // Explore is the default tab shown on load
     const game = WikiRace.getCurrentGame();
     if (!game) return;
     setEmptyState(false);

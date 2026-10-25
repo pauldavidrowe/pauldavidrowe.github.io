@@ -20,16 +20,16 @@
     </header>
 
     <nav class="tabs">
-      <button class="tab active" data-tab="play">Play</button>
+      <button class="tab active" data-tab="explore">Explore</button>
+      <button class="tab" data-tab="play">Play</button>
       <button class="tab" data-tab="history">History</button>
-      <button class="tab" data-tab="explore">Explore</button>
     </nav>
   </div>
 
   <!-- ══════════════════════════════════════════
        PLAY PANEL
   ══════════════════════════════════════════ -->
-  <section id="panel-play" class="panel active">
+  <section id="panel-play" class="panel" hidden>
 
     <div id="game-banner" class="game-banner" hidden>
       <div class="banner-row">
@@ -70,7 +70,6 @@
         </div>
         <iframe id="article-frame" title="Wikipedia article" sandbox="allow-same-origin" referrerpolicy="no-referrer"></iframe>
       </div>
-      <div id="edge-swipe-zone"></div>
     </div>
 
     <p id="play-toast" class="toast" hidden></p>
@@ -96,9 +95,9 @@
        EXPLORE PANEL — a plain Wikipedia browser,
        no connection to game state at all.
   ══════════════════════════════════════════ -->
-  <section id="panel-explore" class="panel" hidden>
+  <section id="panel-explore" class="panel active">
     <div class="explore-toolbar">
-      <button id="explore-home-btn" class="btn-secondary">🏠 Home</button>
+      <button id="explore-search-btn" class="btn-secondary">🔍 Search</button>
       <button id="explore-random-btn" class="btn-secondary">🎲 Random</button>
     </div>
     <iframe id="explore-frame" title="Wikipedia" class="explore-frame"></iframe>
