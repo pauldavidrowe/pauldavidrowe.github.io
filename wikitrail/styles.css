@@ -237,6 +237,26 @@ header h1 {
   overflow: hidden;
 }
 
+.back-peek {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding: 0 40px;
+  text-align: center;
+}
+
+.back-peek-arrow {
+  font-size: 1.3rem;
+  color: var(--navy);
+}
+
 .article-wrap {
   position: absolute;
   inset: 0;
@@ -269,6 +289,16 @@ header h1 {
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+#edge-swipe-zone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  z-index: 3;
+  touch-action: pan-y;
 }
 
 /* ── Toast ────────────────────────────────────────────────── */

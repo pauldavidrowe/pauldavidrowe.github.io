@@ -30,6 +30,9 @@
   const articleWrap = el("article-wrap");
   const articleHost = el("article-host");
   const previewBanner = el("preview-banner");
+  const backPeek = el("back-peek");
+  const backPeekTitle = el("back-peek-title");
+  const edgeSwipeZone = el("edge-swipe-zone");
   const playToast = el("play-toast");
 
   const resultModal = el("result-modal");
@@ -191,6 +194,7 @@
     articleWrap.classList.toggle("preview-mode", preview);
     previewBanner.hidden = !preview;
     backBtn.hidden = preview || !canGoBackNow();
+    edgeSwipeZone.style.visibility = preview ? "hidden" : "visible";
 
     if (!preview) liveArticle = article;
   }
@@ -311,6 +315,75 @@
   }
 
   backBtn.addEventListener("click", handleBack);
+
+  // Edge swipe-to-go-back: a dedicated, narrow touch zone at the screen
+  // edge — not listening on the article content itself, so there's no
+  // ambiguity with scrolling to disambiguate and no risk of interfering
+  // with link taps. Previously this competed with iOS's own edge-swipe
+  // navigation gesture (which acted on the old iframe's navigation
+  // history); now that the article renders in a shadow root with no
+  // navigable history of its own, there's nothing left for iOS to steal
+  // this gesture for.
+  const SWIPE_MAX_DRAG = 110;
+  const SWIPE_COMMIT_THRESHOLD = 70;
+  let swipeActive = false;
+  let swipeStartX = 0;
+
+  edgeSwipeZone.addEventListener("touchstart", (e) => {
+    if (inPreviewMode) return;
+    const game = WikiRace.getCurrentGame();
+    if (!game) return;
+    swipeActive = true;
+    swipeStartX = e.touches[0].clientX;
+    const canBack = game.path.length > 1;
+    backPeekTitle.textContent = canBack
+      ? `Back to "${game.path[game.path.length - 2].title}"`
+      : "You're at the start";
+    backPeek.hidden = false;
+    backPeek.style.opacity = "0";
+    articleWrap.style.transition = "none";
+  }, { passive: true });
+
+  edgeSwipeZone.addEventListener("touchmove", (e) => {
+    if (!swipeActive) return;
+    const dx = e.touches[0].clientX - swipeStartX;
+    if (dx <= 0) return;
+    e.preventDefault();
+    const canBack = canGoBackNow();
+    const max = canBack ? SWIPE_MAX_DRAG : 24; // resistance when there's nowhere to go
+    const clamped = Math.min(dx, max);
+    articleWrap.style.transform = `translateX(${clamped}px)`;
+    backPeek.style.opacity = String(Math.min(clamped / SWIPE_MAX_DRAG, 1));
+  }, { passive: false });
+
+  function endSwipe(commit) {
+    articleWrap.style.transition = "transform .2s ease";
+    if (commit) {
+      articleWrap.style.transform = "translateX(100%)";
+      setTimeout(() => {
+        articleWrap.style.transition = "none";
+        articleWrap.style.transform = "translateX(0)";
+        backPeek.hidden = true;
+        handleBack();
+      }, 200);
+    } else {
+      articleWrap.style.transform = "translateX(0)";
+      setTimeout(() => { backPeek.hidden = true; }, 200);
+    }
+  }
+
+  edgeSwipeZone.addEventListener("touchend", (e) => {
+    if (!swipeActive) return;
+    swipeActive = false;
+    const dx = e.changedTouches[0].clientX - swipeStartX;
+    endSwipe(canGoBackNow() && dx >= SWIPE_COMMIT_THRESHOLD);
+  });
+
+  edgeSwipeZone.addEventListener("touchcancel", () => {
+    if (!swipeActive) return;
+    swipeActive = false;
+    endSwipe(false);
+  });
 
   // ---------- table of contents drawer ----------
 
