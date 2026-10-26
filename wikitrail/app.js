@@ -155,12 +155,19 @@ const WikiRace = (() => {
     return t.trim().toLowerCase().replace(/_/g, " ");
   }
 
+  // Not crypto.randomUUID() — that's gated behind a secure context (HTTPS
+  // or localhost), and this id is just a locally-unused label, not
+  // anything security-sensitive. No reason to take on that restriction.
+  function makeId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  }
+
   async function startNewGame() {
     const start = await fetchRandomPlayableArticle(null);
     const target = await fetchRandomPlayableArticle(start.title);
     const now = new Date().toISOString();
     data.currentGame = {
-      id: crypto.randomUUID(),
+      id: makeId(),
       startedAt: now,
       finishedAt: null,
       status: "in_progress",

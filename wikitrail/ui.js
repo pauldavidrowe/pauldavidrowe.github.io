@@ -155,17 +155,13 @@
   // preview mode (used for the target peek); false is normal gameplay.
   // scrollY, if given, is restored once the frame finishes loading.
   function loadArticleIntoFrame(article, { preview = false, scrollY = 0 } = {}) {
-    // Written in place via document.write(), not a srcdoc/src reassignment.
-    // Those are real navigations of the iframe, which some browsers fold
-    // into the page's own back/forward history — document.write() replaces
-    // the content without creating a history entry.
-    const doc = articleFrame.contentDocument;
-    doc.open();
-    doc.write(buildFrameDoc(article));
-    doc.close();
-    activeHeadings = article.headings || [];
+    // Un-hide before writing content, not after — rendering into a
+    // display:none iframe is the kind of thing WebKit can handle
+    // differently (e.g. an incomplete snapshot) than a visible one.
     articleArea.hidden = false;
     playLoading.hidden = true;
+    articleFrame.srcdoc = buildFrameDoc(article);
+    activeHeadings = article.headings || [];
     pendingScrollY = scrollY;
 
     inPreviewMode = preview;
@@ -176,9 +172,7 @@
     if (!preview) liveArticle = article;
   }
 
-  // Attached once; fires on every document.write() in loadArticleIntoFrame
-  // (confirmed: the iframe's load event still fires for this, same as it
-  // did for srcdoc reassignment).
+  // Attached once; fires on every srcdoc load, including reloads.
   articleFrame.addEventListener("load", () => {
     const doc = articleFrame.contentDocument;
     if (!doc) return;
