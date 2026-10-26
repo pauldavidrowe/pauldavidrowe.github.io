@@ -30,8 +30,6 @@
   const articleWrap = el("article-wrap");
   const articleFrame = el("article-frame");
   const previewBanner = el("preview-banner");
-  const backPeek = el("back-peek");
-  const backPeekTitle = el("back-peek-title");
   const playToast = el("play-toast");
 
   const resultModal = el("result-modal");
@@ -197,10 +195,6 @@
         showToast("That link won't help you here.");
       }
     }, true);
-    doc.addEventListener("touchstart", swipeTouchStart, { passive: true });
-    doc.addEventListener("touchmove", swipeTouchMove, { passive: false });
-    doc.addEventListener("touchend", swipeTouchEnd);
-    doc.addEventListener("touchcancel", swipeTouchCancel);
   });
 
   async function handleLinkClick(title, linkText) {
@@ -319,99 +313,6 @@
   }
 
   backBtn.addEventListener("click", handleBack);
-
-  // Swipe-to-go-back: a clearly-horizontal rightward drag anywhere in the
-  // article. Deliberately NOT anchored to the screen edge — iOS Safari
-  // reserves the outermost strip of the screen for its own back gesture
-  // and reliably steals edge-originating touches before our JS sees the
-  // rest of them, no matter what preventDefault() we call. Listening on
-  // the article itself instead sidesteps that entirely.
-  //
-  // Disambiguated from normal scrolling: we don't commit to this being
-  // "our" gesture (and don't preventDefault) until the drag is clearly
-  // more horizontal than vertical and past a small threshold — until
-  // then, normal scrolling behaves exactly as it always would.
-  const SWIPE_MAX_DRAG = 110;
-  const SWIPE_COMMIT_THRESHOLD = 70;
-  // Decide from the very first meaningful movement sample, not after
-  // accumulating distance. iOS's native scroll/bounce handling can commit
-  // to a touch within the first few pixels of movement — if we wait too
-  // long to decide "this is our gesture" and call preventDefault(), native
-  // handling has already won the race and our drag never visibly starts.
-  const SWIPE_DECIDE_THRESHOLD = 4;
-  let swipeState = null; // { startX, startY, engaged, decided } while a touch is active
-
-  function swipeTouchStart(e) {
-    if (inPreviewMode) return;
-    if (!WikiRace.getCurrentGame()) return;
-    const t = e.touches[0];
-    swipeState = { startX: t.clientX, startY: t.clientY, engaged: false, decided: false };
-  }
-
-  function swipeTouchMove(e) {
-    if (!swipeState) return;
-    const t = e.touches[0];
-    const dx = t.clientX - swipeState.startX;
-    const dy = t.clientY - swipeState.startY;
-
-    if (swipeState.decided && !swipeState.engaged) return; // confirmed not ours — leave scrolling alone
-
-    if (!swipeState.engaged) {
-      if (Math.abs(dx) < SWIPE_DECIDE_THRESHOLD && Math.abs(dy) < SWIPE_DECIDE_THRESHOLD) return; // not enough signal yet
-      if (dx <= 0 || Math.abs(dy) > dx * 0.6) {
-        swipeState.decided = true;
-        return;
-      }
-      swipeState.engaged = true;
-      const game = WikiRace.getCurrentGame();
-      const canBack = game.path.length > 1;
-      backPeekTitle.textContent = canBack
-        ? `Back to "${game.path[game.path.length - 2].title}"`
-        : "You're at the start";
-      backPeek.hidden = false;
-      backPeek.style.opacity = "0";
-      articleWrap.style.transition = "none";
-    }
-
-    e.preventDefault();
-    const canBack = canGoBackNow();
-    const max = canBack ? SWIPE_MAX_DRAG : 24; // resistance when there's nowhere to go
-    const clamped = Math.min(Math.max(dx, 0), max);
-    articleWrap.style.transform = `translateX(${clamped}px)`;
-    backPeek.style.opacity = String(Math.min(clamped / SWIPE_MAX_DRAG, 1));
-  }
-
-  function endSwipe(commit) {
-    articleWrap.style.transition = "transform .2s ease";
-    if (commit) {
-      articleWrap.style.transform = "translateX(100%)";
-      setTimeout(() => {
-        articleWrap.style.transition = "none";
-        articleWrap.style.transform = "translateX(0)";
-        backPeek.hidden = true;
-        handleBack();
-      }, 200);
-    } else {
-      articleWrap.style.transform = "translateX(0)";
-      setTimeout(() => { backPeek.hidden = true; }, 200);
-    }
-  }
-
-  function swipeTouchEnd(e) {
-    if (!swipeState) return;
-    const engaged = swipeState.engaged;
-    const dx = e.changedTouches[0].clientX - swipeState.startX;
-    swipeState = null;
-    if (!engaged) return;
-    endSwipe(canGoBackNow() && dx >= SWIPE_COMMIT_THRESHOLD);
-  }
-
-  function swipeTouchCancel() {
-    if (!swipeState) return;
-    const engaged = swipeState.engaged;
-    swipeState = null;
-    if (engaged) endSwipe(false);
-  }
 
   // ---------- table of contents drawer ----------
 
