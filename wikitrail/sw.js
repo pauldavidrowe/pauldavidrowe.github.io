@@ -5,7 +5,7 @@
 // to fetch articles.
 // ============================================================
 
-const CACHE_NAME = "wikirace-v10";
+const CACHE_NAME = "wikirace-v11";
 const SHELL = [
   "./index.html",
   "./app.js",

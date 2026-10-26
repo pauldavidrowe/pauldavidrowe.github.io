@@ -173,7 +173,15 @@
   // Attached once; fires on every srcdoc load, including reloads.
   articleFrame.addEventListener("load", () => {
     const doc = articleFrame.contentDocument;
-    if (!doc) return;
+    if (!doc) {
+      // The iframe navigated somewhere we don't have same-origin access to
+      // (e.g. it escaped to a real external page) — we've lost JS control
+      // over it. Recover by re-rendering our own last-known-good content
+      // rather than leaving the player stuck looking at it silently.
+      showToast("Something went wrong with that page — reloading it.");
+      if (liveArticle) loadArticleIntoFrame(liveArticle, { preview: inPreviewMode });
+      return;
+    }
     if (pendingScrollY) {
       // Instant, not smooth — smooth scrolling doesn't run in this
       // sandboxed iframe (no script context of its own to animate it).
@@ -181,9 +189,21 @@
       pendingScrollY = 0;
     }
     doc.addEventListener("click", (e) => {
-      const a = e.target.closest("a");
-      if (!a) return;
+      // preventDefault unconditionally, before anything else — if a click
+      // inside this iframe is ever allowed through to the browser's
+      // default handling, it natively navigates to the real Wikipedia
+      // page, which silently takes the iframe cross-origin and permanently
+      // strips our JS access to it (no more click interception, nothing —
+      // not recoverable without a full reload). Finding the <a> and
+      // deciding what to do with it happens only after this.
       e.preventDefault();
+      let a = null;
+      try {
+        a = e.target && e.target.closest ? e.target.closest("a") : null;
+      } catch {
+        a = null;
+      }
+      if (!a) return;
       if (inPreviewMode) {
         showToast("Links are disabled while previewing.");
         return;
