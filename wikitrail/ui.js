@@ -28,7 +28,7 @@
   const playLoading = el("play-loading");
   const articleArea = el("article-area");
   const articleWrap = el("article-wrap");
-  const articleFrame = el("article-frame");
+  const articleHost = el("article-host");
   const previewBanner = el("preview-banner");
   const playToast = el("play-toast");
 
@@ -54,7 +54,13 @@
   // link out of path[i], so "back" can return them to that exact spot
   // instead of the top of the article. Session-only, not persisted.
   let scrollPositions = [];
-  let pendingScrollY = 0;
+
+  // The article renders inside a shadow root, not an iframe — no nested
+  // browsing context, no cross-origin boundary to ever get trapped behind.
+  // Content inserted via innerHTML never executes embedded <script> tags
+  // (standard browser behavior), so this still keeps Wikipedia's own
+  // markup inert without needing iframe sandboxing for it.
+  const articleShadow = articleHost.attachShadow({ mode: "open" });
 
   // ---------- small helpers ----------
 
@@ -128,39 +134,58 @@
     pathTrail.scrollLeft = pathTrail.scrollWidth;
   }
 
-  function buildFrameDoc(article) {
-    return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<base href="https://en.wikipedia.org/wiki/">
+  function buildArticleFragment(article) {
+    return `
 <link rel="stylesheet" href="https://en.wikipedia.org/w/load.php?lang=en&modules=site.styles&only=styles&skin=vector-2022">
 <style>
-  body { margin: 16px; font-family: sans-serif; font-size: 16px; line-height: 1.5; touch-action: pan-y; }
+  :host { display: block; }
+  .article-title { margin: 16px 16px 0; font-family: sans-serif; font-size: 1.6rem; }
+  .article-body { margin: 16px; font-family: sans-serif; font-size: 16px; line-height: 1.5; }
   .mw-editsection { display: none; }
   table.infobox { float: none; width: 100%; margin: 1em 0; }
   img { max-width: 100%; height: auto; }
 </style>
-</head>
-<body>
-<h1>${escapeHtml(article.title)}</h1>
-<div class="mw-parser-output">${article.html}</div>
-</body>
-</html>`;
+<h1 class="article-title">${escapeHtml(article.title)}</h1>
+<div class="article-body mw-parser-output">${article.html}</div>`;
   }
+
+  // Single listener, attached once, directly on the shadow root — never
+  // needs re-attaching, because updating article content below is just a
+  // normal DOM mutation (innerHTML), not a navigation that replaces the
+  // whole document the way srcdoc/src reassignment on an iframe would.
+  articleShadow.addEventListener("click", (e) => {
+    // preventDefault unconditionally, before anything else. There's no
+    // iframe here to escape into anymore, but this is still the safest
+    // habit: whatever happens below, the browser's own link navigation
+    // never gets a chance to run.
+    e.preventDefault();
+    let a = null;
+    try {
+      a = e.target && e.target.closest ? e.target.closest("a") : null;
+    } catch {
+      a = null;
+    }
+    if (!a) return;
+    if (inPreviewMode) {
+      showToast("Links are disabled while previewing.");
+      return;
+    }
+    const parsed = WikiRace.parseWikiHref(a.getAttribute("href"), a.className);
+    if (parsed) {
+      handleLinkClick(parsed.title, a.textContent.trim());
+    } else {
+      showToast("That link won't help you here.");
+    }
+  }, true);
 
   // preview: true shows this article in the visually-distinct, links-dead
   // preview mode (used for the target peek); false is normal gameplay.
-  // scrollY, if given, is restored once the frame finishes loading.
   function loadArticleIntoFrame(article, { preview = false, scrollY = 0 } = {}) {
-    // Un-hide before writing content, not after — rendering into a
-    // display:none iframe is the kind of thing WebKit can handle
-    // differently (e.g. an incomplete snapshot) than a visible one.
     articleArea.hidden = false;
     playLoading.hidden = true;
-    articleFrame.srcdoc = buildFrameDoc(article);
+    articleShadow.innerHTML = buildArticleFragment(article);
+    articleHost.scrollTop = scrollY;
     activeHeadings = article.headings || [];
-    pendingScrollY = scrollY;
 
     inPreviewMode = preview;
     articleWrap.classList.toggle("preview-mode", preview);
@@ -170,56 +195,9 @@
     if (!preview) liveArticle = article;
   }
 
-  // Attached once; fires on every srcdoc load, including reloads.
-  articleFrame.addEventListener("load", () => {
-    const doc = articleFrame.contentDocument;
-    if (!doc) {
-      // The iframe navigated somewhere we don't have same-origin access to
-      // (e.g. it escaped to a real external page) — we've lost JS control
-      // over it. Recover by re-rendering our own last-known-good content
-      // rather than leaving the player stuck looking at it silently.
-      showToast("Something went wrong with that page — reloading it.");
-      if (liveArticle) loadArticleIntoFrame(liveArticle, { preview: inPreviewMode });
-      return;
-    }
-    if (pendingScrollY) {
-      // Instant, not smooth — smooth scrolling doesn't run in this
-      // sandboxed iframe (no script context of its own to animate it).
-      articleFrame.contentWindow.scrollTo(0, pendingScrollY);
-      pendingScrollY = 0;
-    }
-    doc.addEventListener("click", (e) => {
-      // preventDefault unconditionally, before anything else — if a click
-      // inside this iframe is ever allowed through to the browser's
-      // default handling, it natively navigates to the real Wikipedia
-      // page, which silently takes the iframe cross-origin and permanently
-      // strips our JS access to it (no more click interception, nothing —
-      // not recoverable without a full reload). Finding the <a> and
-      // deciding what to do with it happens only after this.
-      e.preventDefault();
-      let a = null;
-      try {
-        a = e.target && e.target.closest ? e.target.closest("a") : null;
-      } catch {
-        a = null;
-      }
-      if (!a) return;
-      if (inPreviewMode) {
-        showToast("Links are disabled while previewing.");
-        return;
-      }
-      const parsed = WikiRace.parseWikiHref(a.getAttribute("href"), a.className);
-      if (parsed) {
-        handleLinkClick(parsed.title, a.textContent.trim());
-      } else {
-        showToast("That link won't help you here.");
-      }
-    }, true);
-  });
-
   async function handleLinkClick(title, linkText) {
     const current = WikiRace.getCurrentGame();
-    if (current) scrollPositions[current.path.length - 1] = articleFrame.contentWindow.scrollY;
+    if (current) scrollPositions[current.path.length - 1] = articleHost.scrollTop;
     setLoading(true);
     try {
       const { game, article, won } = await WikiRace.selectLink(title, linkText);
@@ -291,7 +269,7 @@
   async function handlePreviewTarget() {
     const game = WikiRace.getCurrentGame();
     if (!game || inPreviewMode) return;
-    liveScrollY = articleFrame.contentWindow.scrollY;
+    liveScrollY = articleHost.scrollTop;
     setLoading(true);
     try {
       const article = await WikiRace.getArticle(game.target.title);
@@ -362,10 +340,12 @@
   tocList.addEventListener("click", (e) => {
     const btn = e.target.closest(".toc-item");
     if (!btn) return;
-    const doc = articleFrame.contentDocument;
-    const target = doc && doc.getElementById(btn.dataset.id);
-    // Smooth scrolling doesn't run inside this sandboxed iframe (it has no
-    // script context of its own to drive the animation), so jump instantly.
+    const target = articleShadow.getElementById(btn.dataset.id);
+    // Instant, not smooth — scrollIntoView({behavior:"smooth"}) across a
+    // shadow-root boundary silently does nothing in some browsers, the
+    // same way it did inside the old sandboxed iframe for a different
+    // reason. Confirmed "auto" works reliably; not worth betting on smooth
+    // scrolling here a third time.
     if (target) target.scrollIntoView({ behavior: "auto", block: "start" });
     closeToc();
   });

@@ -263,12 +263,12 @@ header h1 {
   border-bottom: 1px solid var(--orange);
 }
 
-#article-frame {
+.article-host {
   width: 100%;
   flex: 1;
   min-height: 0;
-  border: none;
-  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Toast ────────────────────────────────────────────────── */
